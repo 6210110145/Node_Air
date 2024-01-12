@@ -2,7 +2,8 @@ import exprees from 'express';
 import bodyParser from 'body-parser';
 import keys from './key.json' assert {type: 'json'};
 import * as fs from 'fs';
-import { centralairMain } from './test_centralAir.js';
+import { centralairMain } from './aircons/test_centralAir.js';
+import { panasonicMain } from './aircons/test_panasonic.js';
 
 const app = exprees()
 
@@ -85,6 +86,12 @@ app.put('/remote/:name', (req, res) => {
             Light: req.body.Light,
         }
 
+        if(name.toLocaleLowerCase() == 'samsung') {
+            if(updateRemote.Power == 'OFF') {
+                updateRemote.Name = 'samsungpower'
+            }
+        }
+        
         let newRemote = JSON.stringify(updateRemote, null, 2)
 
         fs.writeFile('./key.json', newRemote, (err) => {
@@ -108,11 +115,15 @@ app.put('/remote/:name', (req, res) => {
             }else {
                 let newKeyObj = JSON.parse(newKey)
                 // centralairMain(newKeyObj)
-                await centralairMain(newKeyObj) 
-                res.json({
-                    success: true
-                })
+                if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
+                    await centralairMain(newKeyObj)
+                }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic'){
+                    await panasonicMain(newKeyObj)
+                }
             } 
+            res.json({
+                success: true
+            })
         }, 1000);
     }else {
         res.json({

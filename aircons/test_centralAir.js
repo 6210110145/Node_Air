@@ -8,8 +8,8 @@ const gap = '650 20000'
 const tail = '650 '
 
 export async function centralairMain(key) {
-    await sendSignals(getRemote(KeyToBinary(key)));
-    console.log(KeyToBinary(key))
+    sendSignals(getRemote(KeyToBinary(key)));
+    // console.log(KeyToBinary(key))
 }
 
 function KeyToBinary(state) {
