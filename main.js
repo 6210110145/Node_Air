@@ -100,34 +100,41 @@ app.put('/remote/:name', (req, res) => {
             }
         })
 
-        fs.readFile('./key.json', "utf8", async (err, newKey) => {
+        fs.readFile('./key.json', "utf8", (err, newKey) => {
             if (err) {
                 console.log(err)
                 return;
             }else {
                 let newKeyObj = JSON.parse(newKey)
-                // centralairMain(newKeyObj)
                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
-                    await centralairMain(newKeyObj)
-                    res.json({
-                        success: true,
-                        message: `CentralAir can Send Signals`
+                    centralairMain(newKeyObj).then( result => {
+                        console.log("send")
+                        res.json({
+                            success: true,
+                            message: `${result} can send`
+                        })
                     })
+                    .catch(result => {
+                        res.json({
+                            success: false,
+                            message: `${result} can send`
+                        })
+                    })  
                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
-                    await panasonicMain(newKeyObj)
+                    panasonicMain(newKeyObj)
                     res.json({
                         success: true,
                         message: `Panasonic can Send Signals`
                     })
                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
                     if (newKeyObj.Power == 'OFF') {
-                        await samsungPowerMain(newKeyObj)
+                        samsungPowerMain(newKeyObj)
                         res.json({
                             success: true,
                             message: `SamsungPower can Send Signals`
                         })
                     }else {
-                        await samsungMain(newKeyObj)
+                        samsungMain(newKeyObj)
                         res.json({
                             success: true,
                             message: `Samsung can Send Signals`

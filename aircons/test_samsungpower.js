@@ -29,7 +29,7 @@ function KeyToBinary(state) {
 
     code += 'H'
 
-    //the first 7 Bytes
+    //the first frame
     code += "010000000100"
     code += "B" //checksum
     code += "00000000000000000000000000000000"
@@ -42,10 +42,10 @@ function KeyToBinary(state) {
         checksum_byte_1 += "0011"
     }
     
-    //the second 7 Bytes
+    //the second frame
     code += "GH10000000010010111111000000000000000000000000000000000000"
     
-    //the third 7 Bytes
+    //the third frame
     code += "GH" //Gap + Header
     code += "100000000100"
     code += "C" //checksum

@@ -1,8 +1,8 @@
 {
-  "Name": "samsung",
+  "Name": "centralair",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 25,
+  "Temp": 26,
   "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",

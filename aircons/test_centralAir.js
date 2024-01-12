@@ -7,9 +7,15 @@ const header = '9000 4500 '
 const gap = '650 20000'
 const tail = '650 '
 
-export async function centralairMain(key) {
-    sendSignals(getRemote(KeyToBinary(key)));
-    // console.log(KeyToBinary(key))
+export function centralairMain(key) {
+    return new Promise((resolve, reject) => {
+        let check = sendSignals(getRemote(KeyToBinary(key)))
+        if(check == true){
+            resolve('centralAir')
+        }else {
+            reject(check)
+        }
+    })
 }
 
 function KeyToBinary(state) {
@@ -375,7 +381,7 @@ function sendSignals(remote) {
         exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
             if (error) {
                 console.log(stderr)
-            }
+            }   
         })
         console.log("File copyed.");
 
@@ -391,13 +397,14 @@ function sendSignals(remote) {
             }
         })
 
+        
         setTimeout(() => {
-        console.log("Command sent");
-        exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
+            exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+                if (error) {
+                    console.log(stderr)
+                }
             }
-        }
-        }, 2000);
+        }, 2000)
     })
+    return true
 }
