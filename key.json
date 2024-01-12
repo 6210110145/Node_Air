@@ -1,8 +1,8 @@
 {
-  "Name": "panasonic",
+  "Name": "centralair",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 26,
+  "Temp": 28,
   "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",

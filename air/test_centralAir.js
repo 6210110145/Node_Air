@@ -9,12 +9,17 @@ const tail = '650 '
 
 export function centralairMain(key) {
     return new Promise((resolve, reject) => {
-        let check = sendSignals(getRemote(KeyToBinary(key)))
-        if(check == true){
-            resolve('centralAir')
-        }else {
-            reject('fail')
-        }
+        sendSignals(getRemote(KeyToBinary(key))).then((result) => {
+            resolve(result)
+        })
+        .catch( result => {
+            reject(result)
+        })
+        // if(a == true){
+            
+        // }else {
+        //     reject('fail')
+        // }
         // .then((result) => {
         //     resolve(result)
         // })
@@ -377,9 +382,9 @@ function getRemote(binary) {
             '\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
-function sendSignals(remote) {
-    
-    fs.writeFile('./AIR.lircd.conf', remote, (err) => {
+async function sendSignals(remote) {
+    new Promise((resolve, reject) => {
+        fs.writeFile('./AIR.lircd.conf', remote, (err) => {
         if(err) {
             return console.log(err)
         }
@@ -407,12 +412,15 @@ function sendSignals(remote) {
 
         setTimeout(() => {
             console.log("Commande send")
+            resolve('central Air')
             // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
             //     if (error) {
             //         console.log(stderr)
             //     }
             // } 
-            return true
+            
         }, 2000) 
     })
+    })
+    
 }

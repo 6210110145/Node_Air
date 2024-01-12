@@ -13,8 +13,8 @@ export async function panasonicMain(key) {
     
     sendSignals(getRemote(binary.code, checksum(binary.sum)))
 
-    console.log(KeyToBinary(key))
-    console.log(checksum(binary.sum))
+    // console.log(KeyToBinary(key))
+    // console.log(checksum(binary.sum))
     // console.log(getRemote(binary.code, checksum(binary.sum)))
 }
 

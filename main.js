@@ -108,7 +108,6 @@ app.put('/remote/:name', (req, res) => {
                 let newKeyObj = JSON.parse(newKey)
                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
                     centralairMain(newKeyObj).then((result) => {
-                        console.log("send")
                         res.json({
                             success: true,
                             message: `${result} can send`
@@ -148,7 +147,7 @@ app.put('/remote/:name', (req, res) => {
                     })
                 }
             } 
-        }, 500);
+        });
     }else {
         res.json({
             success: 'false',
