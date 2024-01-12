@@ -13,8 +13,15 @@ export function centralairMain(key) {
         if(check == true){
             resolve('centralAir')
         }else {
-            reject(check)
+            reject('fail')
         }
+        // .then((result) => {
+        //     resolve(result)
+        // })
+        // .catch( result => {
+        //     reject(result)
+        // })
+        
     })
 }
 
@@ -371,6 +378,7 @@ function getRemote(binary) {
 }
 
 function sendSignals(remote) {
+    
     fs.writeFile('./AIR.lircd.conf', remote, (err) => {
         if(err) {
             return console.log(err)
@@ -397,14 +405,14 @@ function sendSignals(remote) {
             }
         })
 
-        
         setTimeout(() => {
-            exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-                if (error) {
-                    console.log(stderr)
-                }
-            }
-        }, 2000)
+            console.log("Commande send")
+            // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+            //     if (error) {
+            //         console.log(stderr)
+            //     }
+            // } 
+            return true
+        }, 2000) 
     })
-    return true
 }

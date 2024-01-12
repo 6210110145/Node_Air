@@ -2,10 +2,10 @@ import exprees from 'express';
 import bodyParser from 'body-parser';
 import keys from './key.json' assert {type: 'json'};
 import * as fs from 'fs';
-import { centralairMain } from './aircons/test_centralAir.js';
-import { panasonicMain } from './aircons/test_panasonic.js';
-import { samsungMain } from './aircons/test_samsung.js';
-import { samsungPowerMain } from './aircons/test_samsungpower.js';
+import { centralairMain } from './air/test_centralAir.js';
+import { panasonicMain } from './air/test_panasonic.js';
+import { samsungMain } from './air/test_samsung.js';
+import { samsungPowerMain } from './air/test_samsungpower.js';
 
 const app = exprees()
 
@@ -107,7 +107,7 @@ app.put('/remote/:name', (req, res) => {
             }else {
                 let newKeyObj = JSON.parse(newKey)
                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
-                    centralairMain(newKeyObj).then( result => {
+                    centralairMain(newKeyObj).then((result) => {
                         console.log("send")
                         res.json({
                             success: true,
@@ -115,9 +115,10 @@ app.put('/remote/:name', (req, res) => {
                         })
                     })
                     .catch(result => {
+                        console.log("can not send")
                         res.json({
                             success: false,
-                            message: `${result} can send`
+                            message: `${result}`
                         })
                     })  
                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
@@ -147,7 +148,7 @@ app.put('/remote/:name', (req, res) => {
                     })
                 }
             } 
-        }, 1000);
+        }, 500);
     }else {
         res.json({
             success: 'false',
