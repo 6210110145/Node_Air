@@ -244,41 +244,39 @@ function getRemote(binary, checksum) {
 }
 
 function sendSignals(remote) {
-    fs.writeFile('./AIR.lircd.conf', remote, err => {
-        setTimeout (() => {
-            if(err) {
-                return console.log(err)
-            }
-        }, 1000)
-        
+    fs.writeFile('./AIR.lircd.conf', remote, (err) => {
+        if(err) {
+            return console.log(err)
+        }
         console.log('File created.')
 
-        // exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
-        //     if (error) {
-        //         console.log(stderr)
-        //     }
-        // })
-        // console.log("File copyed.");
+    
+        exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
+            if (error) {
+                console.log(stderr)
+            }
+        })
+        console.log("File copyed.");
 
-        // exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
-        //     if (error) {
-        //         console.log(stderr)
-        //     }
-        // })
+        exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
+            if (error) {
+                console.log(stderr)
+            }
+        })
 
-        // exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
-        //     if (error) {
-        //         console.log(stderr)
-        //     }
-        // })
+        exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
+            if (error) {
+                console.log(stderr)
+            }
+        })
 
-        // setTimeout(() => {
-        // console.log("Command sent");
-        // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-        //     if (error) {
-        //         console.log(stderr)
-        //     }
-        // }
-        // }, 1000);
+        setTimeout(() => {
+        console.log("Command sent");
+        exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+            if (error) {
+                console.log(stderr)
+            }
+        }
+        }, 2000);
     })
 }

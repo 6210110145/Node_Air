@@ -366,20 +366,17 @@ function getRemote(binary) {
 
 function sendSignals(remote) {
     fs.writeFile('./AIR.lircd.conf', remote, (err) => {
-        setTimeout (() => {
-            if(err) {
-                return console.log(err)
-            }
-        }, 1000)
+        if(err) {
+            return console.log(err)
+        }
         console.log('File created.')
 
-        setTimeout(() => {
-            exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
-                if (error) {
-                    console.log(stderr)
-                }
-            })
-        }, 1000)
+    
+        exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
+            if (error) {
+                console.log(stderr)
+            }
+        })
         console.log("File copyed.");
 
         exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
@@ -401,6 +398,6 @@ function sendSignals(remote) {
                 console.log(stderr)
             }
         }
-        }, 1000);
+        }, 2000);
     })
 }
