@@ -4,6 +4,8 @@ import keys from './key.json' assert {type: 'json'};
 import * as fs from 'fs';
 import { centralairMain } from './aircons/test_centralAir.js';
 import { panasonicMain } from './aircons/test_panasonic.js';
+import { samsungMain } from './aircons/test_samsung.js';
+import { samsungPowerMain } from './aircons/test_samsungpower.js';
 
 const app = exprees()
 
@@ -86,12 +88,6 @@ app.put('/remote/:name', (req, res) => {
             Light: req.body.Light,
         }
 
-        if(name.toLocaleLowerCase() == 'samsung') {
-            if(updateRemote.Power == 'OFF') {
-                updateRemote.Name = 'samsungpower'
-            }
-        }
-        
         let newRemote = JSON.stringify(updateRemote, null, 2)
 
         fs.writeFile('./key.json', newRemote, (err) => {
@@ -101,10 +97,6 @@ app.put('/remote/:name', (req, res) => {
                 return
             }else {
                 console.log('Update Success!')
-                // res.json({
-                //     success: true,
-                //     updateRemote
-                // })
             }
         })
 
@@ -117,13 +109,37 @@ app.put('/remote/:name', (req, res) => {
                 // centralairMain(newKeyObj)
                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
                     await centralairMain(newKeyObj)
-                }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic'){
+                    res.json({
+                        success: true,
+                        message: `CentralAir can Send Signals`
+                    })
+                }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
                     await panasonicMain(newKeyObj)
+                    res.json({
+                        success: true,
+                        message: `Panasonic can Send Signals`
+                    })
+                }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
+                    if (newKeyObj.Power == 'OFF') {
+                        await samsungPowerMain(newKeyObj)
+                        res.json({
+                            success: true,
+                            message: `SamsungPower can Send Signals`
+                        })
+                    }else {
+                        await samsungMain(newKeyObj)
+                        res.json({
+                            success: true,
+                            message: `Samsung can Send Signals`
+                        })
+                    }
+                }else {
+                    res.json({
+                        success: false,
+                        message: `Can Not Send Signals`
+                    })
                 }
             } 
-            res.json({
-                success: true
-            })
         }, 1000);
     }else {
         res.json({

@@ -9,7 +9,7 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-export function samsungPowerMain(key) {
+export async function samsungPowerMain(key) {
     let binary = KeyToBinary(key)
     let byte_checksum_1 = checksum(binary.checksum_byte_1)
     let byte_checksum_2 = checksum(binary.checksum_byte)
