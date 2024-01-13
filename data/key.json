@@ -1,12 +1,12 @@
 {
   "Name": "samsung",
-  "Power": "OFF",
+  "Power": "ON",
   "Mode": "COOL",
-  "Temp": 27,
+  "Temp": 25,
   "Fan": 0,
   "Swing": "OFF",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "ON"
+  "Light": "OFF"
 }
