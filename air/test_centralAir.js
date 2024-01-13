@@ -1,5 +1,6 @@
-import * as fs from 'fs';
-import { exec } from "child_process";
+const { fs } = require('fs');
+const { exec } = require('child_process')
+// import { exec } from "child_process";
 
 const binary_1 = '650 1600 '
 const binary_0 = '650 550 '
@@ -9,7 +10,7 @@ const tail = '650 '
 
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
-export function centralairMain(key) {
+module.exports.centralairMain = function(key) {
     return new Promise((resolve, reject) => {
         sendSignals(getRemote(KeyToBinary(key))).then(async (result) => { 
             await sleep(1000)

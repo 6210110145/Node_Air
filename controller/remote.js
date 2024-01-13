@@ -1,14 +1,16 @@
-import keys from '../key.json' assert {type: 'json'};
-import * as fs from 'fs';
+// const { keys } = require("json/key.json");
+const keys = require('../json/key.json');
+const fs = require('fs');
+const path = './json/key.json'
 
-export function findAll() {
+module.exports.findAll = function() {
     return {
         success : true,
         keys
     }
 }
 
-export function findByName(name) {
+module.exports.findByName = function(name) {
     if(keys.Name === "NULL") {
         return `Name of Air does not added`
     }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
@@ -21,7 +23,7 @@ export function findByName(name) {
     }
 }
 
-export function addName(newName) {
+module.exports.addName = function(newName) {
     if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
         keys.Name = newName
 
@@ -35,7 +37,7 @@ export function addName(newName) {
 function writeJSON(data) {
     let newKey = JSON.stringify(data, null, 2)
 
-    fs.writeFile('./key.json', newKey, (err) => {
+    fs.writeFile(path, newKey, (err) => {
         if(err) {
             console.log(err)
             return

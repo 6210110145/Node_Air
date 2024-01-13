@@ -1,13 +1,13 @@
-import exprees from 'express';
-import bodyParser from 'body-parser';
-import keys from './key.json' assert {type: 'json'};
-import * as fs from 'fs';
-import { centralairMain } from './air/test_centralAir.js';
-import { panasonicMain } from './air/test_panasonic.js';
-import { samsungMain } from './air/test_samsung.js';
-import { samsungPowerMain } from './air/test_samsungpower.js';
-import { addName, findAll , findByName} from './controller/remote.js';
+const exprees = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+// import { panasonicMain } from './air/test_panasonic.js';
+// import { samsungMain } from './air/test_samsung.js';
+// import { samsungPowerMain } from './air/test_samsungpower.js';
+const { addName, findAll , findByName } =  require('./controller/remote.js');
+const { centralairMain } = require('./air/test_centralAir.js');
 
+// const keys = require('./json/key.json');
 const app = exprees()
 
 app.use(bodyParser.json())
@@ -31,120 +31,120 @@ app.patch('/remote/:name', (req, res) => {
 })
 
 //update the value and send signals
-app.put('/remote/:name', (req, res) => {
-    const name = req.params.name
+// app.put('/remote/:name', (req, res) => {
+//     const name = req.params.name
 
-    if(keys.Name.toLowerCase() === name.toLowerCase()) {
-        const updateRemote = {
-            Name: name,
-            Power: req.body.Power,
-            Mode: req.body.Mode,
-            Temp: req.body.Temp,
-            Fan: req.body.Fan,
-            Swing: req.body.Swing,
-            Sleep: req.body.Sleep,
-            Turbo: req.body.Turbo,
-            Quiet: req.body.Quiet,
-            Light: req.body.Light,
-        }
+//     if(keys.Name.toLowerCase() === name.toLowerCase()) {
+//         const updateRemote = {
+//             Name: name,
+//             Power: req.body.Power,
+//             Mode: req.body.Mode,
+//             Temp: req.body.Temp,
+//             Fan: req.body.Fan,
+//             Swing: req.body.Swing,
+//             Sleep: req.body.Sleep,
+//             Turbo: req.body.Turbo,
+//             Quiet: req.body.Quiet,
+//             Light: req.body.Light,
+//         }
 
-        let newRemote = JSON.stringify(updateRemote, null, 2)
+//         let newRemote = JSON.stringify(updateRemote, null, 2)
 
-        fs.writeFile('./key.json', newRemote, (err) => {
-            if(err) {
-                console.log('Update Fail!')
-                console.log(err)
-                return
-            }else {
-                console.log('Update Success!')
-            }
-        })
+//         fs.writeFile('./key.json', newRemote, (err) => {
+//             if(err) {
+//                 console.log('Update Fail!')
+//                 console.log(err)
+//                 return
+//             }else {
+//                 console.log('Update Success!')
+//             }
+//         })
 
-        const sleep = ms => new Promise(res => setTimeout(res, ms));
+//         const sleep = ms => new Promise(res => setTimeout(res, ms));
 
-        fs.readFile('./key.json', "utf8", (err, newKey) => {
-            if (err) {
-                console.log(err)
-                return;
-            }else {
-                let newKeyObj = JSON.parse(newKey)
-                if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
-                    centralairMain(newKeyObj).then(async (result) => {
-                        await sleep(1500)
-                        res.json({
-                            success: true,
-                            message: `${result} can send`
-                        })
-                    })
-                    .catch(result => {
-                        console.log("can not send")
-                        res.json({
-                            success: false,
-                            message: `${result}`
-                        })
-                    })  
-                }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
-                    panasonicMain(newKeyObj).then(async (result) => {
-                        await sleep(1500)
-                        res.json({
-                            success: true,
-                            message: `${result} can send`
-                        })
-                    })
-                    .catch(result => {
-                        console.log("can not send")
-                        res.json({
-                            success: false,
-                            message: `${result}`
-                        })
-                    }) 
-                }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
-                    if (newKeyObj.Power == 'OFF') {
-                        samsungPowerMain(newKeyObj).then(async (result) => {
-                            await sleep(1500)
-                            res.json({
-                                success: true,
-                                message: `${result} can send`
-                            })
-                        })
-                        .catch(result => {
-                            console.log("can not send")
-                            res.json({
-                                success: false,
-                                message: `${result}`
-                            })
-                        }) 
-                    }else {
-                        samsungMain(newKeyObj).then(async (result) => {
-                            await sleep(1500)
-                            res.json({
-                                success: true,
-                                message: `${result} can send`
-                            })
-                        })
-                        .catch(result => {
-                            console.log("can not send")
-                            res.json({
-                                success: false,
-                                message: `${result}`
-                            })
-                        }) 
-                    }
-                }else {
-                    res.json({
-                        success: false,
-                        message: `Can Not Send Signals`
-                    })
-                }
-            } 
-        });
-    }else {
-        res.json({
-            success: 'false',
-            message: `${name} Air is not Match! or ${name} is not Added!!`
-        })
-    }
-})
+//         fs.readFile('./key.json', "utf8", (err, newKey) => {
+//             if (err) {
+//                 console.log(err)
+//                 return;
+//             }else {
+//                 let newKeyObj = JSON.parse(newKey)
+//                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
+//                     centralairMain(newKeyObj).then(async (result) => {
+//                         await sleep(1500)
+//                         res.json({
+//                             success: true,
+//                             message: `${result} can send`
+//                         })
+//                     })
+//                     .catch(result => {
+//                         console.log("can not send")
+//                         res.json({
+//                             success: false,
+//                             message: `${result}`
+//                         })
+//                     })  
+//                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
+//                     panasonicMain(newKeyObj).then(async (result) => {
+//                         await sleep(1500)
+//                         res.json({
+//                             success: true,
+//                             message: `${result} can send`
+//                         })
+//                     })
+//                     .catch(result => {
+//                         console.log("can not send")
+//                         res.json({
+//                             success: false,
+//                             message: `${result}`
+//                         })
+//                     }) 
+//                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
+//                     if (newKeyObj.Power == 'OFF') {
+//                         samsungPowerMain(newKeyObj).then(async (result) => {
+//                             await sleep(1500)
+//                             res.json({
+//                                 success: true,
+//                                 message: `${result} can send`
+//                             })
+//                         })
+//                         .catch(result => {
+//                             console.log("can not send")
+//                             res.json({
+//                                 success: false,
+//                                 message: `${result}`
+//                             })
+//                         }) 
+//                     }else {
+//                         samsungMain(newKeyObj).then(async (result) => {
+//                             await sleep(1500)
+//                             res.json({
+//                                 success: true,
+//                                 message: `${result} can send`
+//                             })
+//                         })
+//                         .catch(result => {
+//                             console.log("can not send")
+//                             res.json({
+//                                 success: false,
+//                                 message: `${result}`
+//                             })
+//                         }) 
+//                     }
+//                 }else {
+//                     res.json({
+//                         success: false,
+//                         message: `Can Not Send Signals`
+//                     })
+//                 }
+//             } 
+//         });
+//     }else {
+//         res.json({
+//             success: 'false',
+//             message: `${name} Air is not Match! or ${name} is not Added!!`
+//         })
+//     }
+// })
 
 const port = 8001
 app.listen(port, () => {
