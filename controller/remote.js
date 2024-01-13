@@ -1,15 +1,21 @@
-import { keys } from "../key.js"
+import keys from '../key.json' assert {type: 'json'};
 
 export function findAll() {
     return keys
 }
 
 export function findByName(name) {
-    for (let i = 0; i < keys.length; i++) {
-        if (keys[i].Name.toLowerCase() == name.toLowerCase()) {
-            return keys[i]
-        }
+    if(keys.Name === "NULL") {
+        return `Name of Air does not added`
+    }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
+        return `${name} is not Found!!`
+    }else {
+        return keys
     }
+}
+
+export function addByName(name) {
+    
 }
 
 // export function updateByName(name, newRemote) {

@@ -7,10 +7,14 @@ const header = '9000 4500 '
 const gap = '650 20000'
 const tail = '650 '
 
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
 export function centralairMain(key) {
     return new Promise((resolve, reject) => {
-        sendSignals(getRemote(KeyToBinary(key))).then((result) => {
-            resolve(result)
+        sendSignals(getRemote(KeyToBinary(key))).then(async (result) => { 
+            await sleep(1000)
+            console.log(result)
+            resolve('Central Air')
         })
         .catch( result => {
             reject(result)
@@ -410,16 +414,16 @@ async function sendSignals(remote) {
             }
         })
 
+        // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
         setTimeout(() => {
             console.log("Commande send")
-            resolve('central Air')
+            resolve(`Central Air`)
             // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
             //     if (error) {
             //         console.log(stderr)
             //     }
-            // } 
-            
-        }, 2000) 
+            // }
+        }, 500) 
     })
     })
     

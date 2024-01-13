@@ -6,6 +6,7 @@ import { centralairMain } from './air/test_centralAir.js';
 import { panasonicMain } from './air/test_panasonic.js';
 import { samsungMain } from './air/test_samsung.js';
 import { samsungPowerMain } from './air/test_samsungpower.js';
+import { findAll , findByName} from './controller/remote.js';
 
 const app = exprees()
 
@@ -14,32 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 //get all value of remote
 app.get('/remote', (req, res) => {
-    res.json({
-        success: 'true',
-        keys
-    })
+    res.send(findAll())
 })
 
 // get remote by name
 app.get('/remote/:name', (req, res) => {
     const name = req.params.name
-    
-    if(keys.Name === "NULL") {
-        res.json({
-            success: false,
-            message: `Name of Air does not added`
-        })
-    }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
-        res.json({
-            success: false,
-            message: `${name} is not Found!!`
-        })
-    }else {
-        res.json({
-            success: true,
-            keys
-        }) 
-    }
+    res.send(findByName(name))
 })
 
 //add or change remote air
@@ -100,6 +82,8 @@ app.put('/remote/:name', (req, res) => {
             }
         })
 
+        const sleep = ms => new Promise(res => setTimeout(res, ms));
+
         fs.readFile('./key.json', "utf8", (err, newKey) => {
             if (err) {
                 console.log(err)
@@ -107,7 +91,8 @@ app.put('/remote/:name', (req, res) => {
             }else {
                 let newKeyObj = JSON.parse(newKey)
                 if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
-                    centralairMain(newKeyObj).then((result) => {
+                    centralairMain(newKeyObj).then(async (result) => {
+                        await sleep(1500)
                         res.json({
                             success: true,
                             message: `${result} can send`
