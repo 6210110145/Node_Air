@@ -36,20 +36,18 @@ module.exports.addName = function(newName) {
     }
 }
 
-module.exports.sendSignals = async function(updateRemote) {
+module.exports.sendSignals = function(updateRemote) {
     let newRemote = JSON.stringify(updateRemote, null, 2)
 
-    // fs.writeFile(path, newRemote, (err) => {
-    //     if(err) {
-    //         console.log('Update Fail!')
-    //         console.log(err)
-    //         return
-    //     }else {
-    //         console.log('Update Success!')
-    //     }
-    // })
-
-    await writeJSON(newRemote)
+    fs.writeFile(path, newRemote, (err) => {
+        if(err) {
+            console.log('Update Fail!')
+            console.log(err)
+            return
+        }else {
+            console.log('Update Success!')
+        }
+    })
 
     fs.readFile(path, "utf8", (err, newKey) => {
         if (err) {
