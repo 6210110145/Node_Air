@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import { exec } from "child_process";
+const fs = require('fs');
+const exec = require('child_process').exec
 
 const start = '580 18000 '
 const header = '3000 9000 '
@@ -9,9 +9,9 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-const sleep = ms => new Promise(res => setTimeout(res, ms));
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-export async function samsungMain(key) {
+module.exports.samsungMain = async function(key) {
     let binary = KeyToBinary(key)
 
     return new Promise((resolve, reject) => {
@@ -25,9 +25,6 @@ export async function samsungMain(key) {
             reject(result)
         })
     })
-
-    // sendSignals(getRemote(binary.code, checksum(binary.checksum_byte_1), checksum(binary.checksum_byte)))
-
     // console.log(binary.code)
     // console.log(byte_checksum_1)
     // console.log(byte_checksum_2)

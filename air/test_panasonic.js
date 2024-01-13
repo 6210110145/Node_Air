@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import { exec } from "child_process";
+const fs = require('fs');
+const exec = require('child_process').exec
 
 const header = '3500 1750 '
 const binary_1 = '435 1300 '
@@ -8,9 +8,9 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
-const sleep = ms => new Promise(res => setTimeout(res, ms));
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-export async function panasonicMain(key) {
+module.exports.panasonicMain = async function(key) {
     let binary = KeyToBinary(key)
 
     return new Promise((resolve, reject) => {

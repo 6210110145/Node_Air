@@ -1,6 +1,6 @@
 {
   "Name": "centralair",
-  "Power": "OFF",
+  "Power": "ON",
   "Mode": "COOL",
   "Temp": 27,
   "Fan": 1,
