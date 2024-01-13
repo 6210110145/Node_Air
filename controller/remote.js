@@ -1,7 +1,11 @@
 import keys from '../key.json' assert {type: 'json'};
+import * as fs from 'fs';
 
 export function findAll() {
-    return keys
+    return {
+        success : true,
+        keys
+    }
 }
 
 export function findByName(name) {
@@ -10,12 +14,30 @@ export function findByName(name) {
     }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
         return `${name} is not Found!!`
     }else {
-        return keys
+        return {
+            success : true,
+            keys
+        }
     }
 }
 
-export function addByName(name) {
-    
+export function addName(newName) {
+    if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
+        keys.Name = newName
+
+        //Write name in JSON
+        fs.writeFile('./key.json', JSON.stringify(keys, null, 2), (err) => {
+            if(err) {
+                console.log(err)
+                return
+            }else {
+                console.log('Write Success! ')
+                return {success : true}
+            }
+        });
+    }else {
+        return `${newName} is alredy used`
+    }
 }
 
 // export function updateByName(name, newRemote) {

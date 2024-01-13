@@ -6,7 +6,7 @@ import { centralairMain } from './air/test_centralAir.js';
 import { panasonicMain } from './air/test_panasonic.js';
 import { samsungMain } from './air/test_samsung.js';
 import { samsungPowerMain } from './air/test_samsungpower.js';
-import { findAll , findByName} from './controller/remote.js';
+import { addName, findAll , findByName} from './controller/remote.js';
 
 const app = exprees()
 
@@ -27,29 +27,7 @@ app.get('/remote/:name', (req, res) => {
 //add or change remote air
 app.patch('/remote/:name', (req, res) => {
     const new_name = req.params.name
-
-    if(keys.Name == "NULL" || new_name.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
-        //add or change the name AIR
-        keys.Name = new_name
-
-        //Write name in JSON
-        fs.writeFile('./key.json', JSON.stringify(keys, null, 2), (err) => {
-            if(err) {
-                console.log(err)
-                return
-            }else {
-                res.json({
-                    success: true,
-                    keys
-                })
-            }
-            console.log('Write Success! ');
-        });
-    }else {
-        res.json({
-            message: `${new_name} is alredy used`
-        })
-    }
+    res.send(addName(new_name))
 })
 
 //update the value and send signals
