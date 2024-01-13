@@ -61,57 +61,17 @@ module.exports.sendSignals = function(updateRemote) {
             let newKeyObj = JSON.parse(newKey)
             if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
                 centralairMain(newKeyObj)
-                
                 // return({
                 //     success: true,
                 //     message: 'Central Air can send'
                 // })
             }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
-                panasonicMain(newKeyObj).then(async (result) => {
-                    await sleep(1500)
-                    return({
-                        success: true,
-                        message: `${result} can send`
-                    })
-                })
-                .catch(result => {
-                    console.log("can not send")
-                    return({
-                        success: false,
-                        message: `${result}`
-                    })
-                }) 
+                panasonicMain(newKeyObj)
             }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
                 if (newKeyObj.Power == 'OFF') {
-                    samsungPowerMain(newKeyObj).then(async (result) => {
-                        await sleep(1500)
-                        return({
-                            success: true,
-                            message: `${result} can send`
-                        })
-                    })
-                    .catch(result => {
-                        console.log("can not send")
-                        return({
-                            success: false,
-                            message: `${result}`
-                        })
-                    }) 
+                    samsungPowerMain(newKeyObj)
                 }else {
-                    samsungMain(newKeyObj).then(async (result) => {
-                        await sleep(1500)
-                        return({
-                            success: true,
-                            message: `${result} can send`
-                        })
-                    })
-                    .catch(result => {
-                        console.log("can not send")
-                        return({
-                            success: false,
-                            message: `${result}`
-                        })
-                    }) 
+                    samsungMain(newKeyObj)
                 }       
             }else {
                 return({

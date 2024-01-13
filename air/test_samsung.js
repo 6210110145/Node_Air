@@ -11,25 +11,16 @@ const redix = 2
 
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-module.exports.samsungMain = async function(key) {
+module.exports.samsungMain = function(key) {
     let binary = KeyToBinary(key)
-
-    return new Promise((resolve, reject) => {
-        sendSignals(getRemote(binary.code, checksum(binary.checksum_byte_1), checksum(binary.checksum_byte)))
-        .then(async (result) => { 
-            await sleep(1000)
-            console.log(result)
-            resolve('Samsung')
-        })
-        .catch( result => {
-            reject(result)
-        })
+    
+    sendSignals(getRemote(binary.code, checksum(binary.checksum_byte_1), checksum(binary.checksum_byte)))
+    .then((result) => { 
+        console.log(result + ' success')
     })
-    // console.log(binary.code)
-    // console.log(byte_checksum_1)
-    // console.log(byte_checksum_2)
-
-    // console.log(getRemote(binary.code, byte_checksum_1, byte_checksum_2))
+    .catch( result => {
+        console.log(result)
+    })
 }
 
 function KeyToBinary(state) {
@@ -362,49 +353,47 @@ function getRemote(binary, checksum1, checksum2) {
     'gap          124928\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
-async function sendSignals(remote) {
-    new Promise((resolve, reject) => {
+function sendSignals(remote) {
+    return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {
-                // reject(err)
                 return console.log(err)
+                // reject(err)
             }
             console.log('File created.')
 
-        
+    
             exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
-                }   
-            })
-            console.log("File copyed.");
+                    // reject(err)
+                    }   
+                })
+                console.log("File copyed.");
 
             exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
+                    // reject(error)
                 }
             })
 
             exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
+                    // reject(error)
                 }
             })
 
-            // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
             setTimeout(() => {
-                console.log("Commande send")
-                resolve(`Central Air`)
                 // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
                 //     if (error) {
-                //          reject(err)
+                //         reject("Command sent")
                 //         console.log(stderr)
                 //     }
                 // }
-            }, 500) 
+                resolve("Samsung")
+            }, 500);
         })
     })
 }
