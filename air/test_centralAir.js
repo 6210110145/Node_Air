@@ -19,18 +19,6 @@ export function centralairMain(key) {
         .catch( result => {
             reject(result)
         })
-        // if(a == true){
-            
-        // }else {
-        //     reject('fail')
-        // }
-        // .then((result) => {
-        //     resolve(result)
-        // })
-        // .catch( result => {
-        //     reject(result)
-        // })
-        
     })
 }
 
@@ -389,42 +377,46 @@ function getRemote(binary) {
 async function sendSignals(remote) {
     new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
-        if(err) {
-            return console.log(err)
-        }
-        console.log('File created.')
-
-    
-        exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }   
-        })
-        console.log("File copyed.");
-
-        exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
+            if(err) {
+                // reject(err)
+                return console.log(err)
             }
-        })
+            console.log('File created.')
 
-        exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
+        
+            exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }   
+            })
+            console.log("File copyed.");
 
-        // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
-        setTimeout(() => {
-            console.log("Commande send")
-            resolve(`Central Air`)
-            // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-            //     if (error) {
-            //         console.log(stderr)
-            //     }
-            // }
-        }, 500) 
+            exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }
+            })
+
+            exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }
+            })
+
+            // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
+            setTimeout(() => {
+                console.log("Commande send")
+                resolve(`Central Air`)
+                // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+                //     if (error) {
+                //          reject(err)
+                //         console.log(stderr)
+                //     }
+                // }
+            }, 500) 
+        })
     })
-    })
-    
 }

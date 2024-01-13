@@ -8,10 +8,23 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
 export async function panasonicMain(key) {
     let binary = KeyToBinary(key)
+
+    return new Promise((resolve, reject) => {
+        sendSignals(getRemote(binary.code, checksum(binary.sum))).then(async (result) => { 
+            await sleep(1000)
+            console.log(result)
+            resolve(`Panasonic`)
+        })
+        .catch( result => {
+            reject(result)
+        })
+    })
     
-    sendSignals(getRemote(binary.code, checksum(binary.sum)))
+    // sendSignals(getRemote(binary.code, checksum(binary.sum)))
 
     // console.log(KeyToBinary(key))
     // console.log(checksum(binary.sum))
@@ -243,40 +256,49 @@ function getRemote(binary, checksum) {
     'gap          124928\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
-function sendSignals(remote) {
-    fs.writeFile('./AIR.lircd.conf', remote, (err) => {
-        if(err) {
-            return console.log(err)
-        }
-        console.log('File created.')
-
-    
-        exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
+async function sendSignals(remote) {
+    new Promise((resolve, reject) => {
+        fs.writeFile('./AIR.lircd.conf', remote, (err) => {
+            if(err) {
+                // reject(err)
+                return console.log(err)
             }
+            console.log('File created.')
+
+        
+            exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }   
+            })
+            console.log("File copyed.");
+
+            exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }
+            })
+
+            exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
+                if (error) {
+                    // reject(err)
+                    console.log(stderr)
+                }
+            })
+
+            // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
+            setTimeout(() => {
+                console.log("Commande send")
+                resolve(`Central Air`)
+                // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+                //     if (error) {
+                //          reject(err)
+                //         console.log(stderr)
+                //     }
+                // }
+            }, 500) 
         })
-        console.log("File copyed.");
-
-        exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
-
-        exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
-
-        setTimeout(() => {
-        console.log("Command sent");
-        exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        }
-        }, 2000);
     })
 }
