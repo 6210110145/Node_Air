@@ -4,8 +4,8 @@ const { panasonicMain } = require('../air/test_panasonic.js');
 const { samsungMain } = require('../air/test_samsung.js');
 const { samsungPowerMain } = require('../air/test_samsungpower.js');
 
-const path = './json/key.json'
-const keys = require('../json/key.json');
+const path = './data/key.json'
+const keys = require('../data/key.json');
 
 module.exports.findAll = function() {
     return {

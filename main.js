@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 // const fs = require('fs');
 
 const remote =  require('./controller/remote.js');
-const keys = require('./json/key.json');
+const keys = require('./data/key.json');
 // const path = './json/key.json'
 
 const app = exprees()
