@@ -26,26 +26,22 @@ export function addName(newName) {
         keys.Name = newName
 
         //Write name in JSON
-        fs.writeFile('./key.json', JSON.stringify(keys, null, 2), (err) => {
-            if(err) {
-                console.log(err)
-                return
-            }else {
-                console.log('Write Success! ')
-                return {success : true}
-            }
-        });
+        writeJSON(keys)
     }else {
         return `${newName} is alredy used`
     }
 }
 
-// export function updateByName(name, newRemote) {
-//     let remote = findByName(name)
+function writeJSON(data) {
+    let newKey = JSON.stringify(data, null, 2)
 
-//     const updateRemote = {
-//         Power: newRemote.Power,
-//         Mode: newRemote.Mode,
-        
-//     }
-// }
+    fs.writeFile('./key.json', newKey, (err) => {
+        if(err) {
+            console.log(err)
+            return
+        }else {
+            console.log('Write Success! ')
+            return {success : true}
+        }
+    });
+}

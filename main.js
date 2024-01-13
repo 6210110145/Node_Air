@@ -100,17 +100,35 @@ app.put('/remote/:name', (req, res) => {
                     }) 
                 }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
                     if (newKeyObj.Power == 'OFF') {
-                        samsungPowerMain(newKeyObj)
-                        res.json({
-                            success: true,
-                            message: `SamsungPower can Send Signals`
+                        samsungPowerMain(newKeyObj).then(async (result) => {
+                            await sleep(1500)
+                            res.json({
+                                success: true,
+                                message: `${result} can send`
+                            })
                         })
+                        .catch(result => {
+                            console.log("can not send")
+                            res.json({
+                                success: false,
+                                message: `${result}`
+                            })
+                        }) 
                     }else {
-                        samsungMain(newKeyObj)
-                        res.json({
-                            success: true,
-                            message: `Samsung can Send Signals`
+                        samsungMain(newKeyObj).then(async (result) => {
+                            await sleep(1500)
+                            res.json({
+                                success: true,
+                                message: `${result} can send`
+                            })
                         })
+                        .catch(result => {
+                            console.log("can not send")
+                            res.json({
+                                success: false,
+                                message: `${result}`
+                            })
+                        }) 
                     }
                 }else {
                     res.json({
