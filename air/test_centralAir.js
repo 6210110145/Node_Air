@@ -7,18 +7,14 @@ const header = '9000 4500 '
 const gap = '650 20000'
 const tail = '650 '
 
-const sleep = ms => new Promise(res => setTimeout(res, ms));
-
-module.exports.centralairMain = async function(key) {
-    return new Promise((resolve, reject) => {
-        sendSignals(getRemote(KeyToBinary(key))).then(async (result) => { 
-            await sleep(1000)
-            console.log(result)
-            resolve('Central Air')
-        })
-        .catch( result => {
-            reject(result)
-        })
+module.exports.centralairMain =  function(key) {
+    sendSignals(getRemote(KeyToBinary(key))).then(result => {
+        console.log(result + ' success')
+        return true
+    })
+    .catch(result => {
+        console.log(result)
+        return false
     })
 }
 
@@ -374,49 +370,47 @@ function getRemote(binary) {
             '\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
-async function sendSignals(remote) {
-    new Promise((resolve, reject) => {
+function sendSignals(remote) {
+    return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {
-                // reject(err)
                 return console.log(err)
+                // reject(err)
             }
             console.log('File created.')
 
-        
+    
             exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
-                }   
-            })
-            console.log("File copyed.");
+                    // reject(err)
+                    }   
+                })
+                console.log("File copyed.");
 
             exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
+                    // reject(error)
                 }
             })
 
             exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
                 if (error) {
-                    // reject(err)
                     console.log(stderr)
+                    // reject(error)
                 }
             })
 
-            // หน่วงเวลาเพื่อให้คำสั่งก่อนหน้าทำงานเสร็จก่อน
             setTimeout(() => {
-                console.log("Commande send")
-                resolve(`Central Air`)
                 // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
                 //     if (error) {
-                //          reject(err)
+                //         reject("Command sent")
                 //         console.log(stderr)
                 //     }
                 // }
-            }, 500) 
+                resolve("Central Air")
+            }, 500);
         })
     })
 }
