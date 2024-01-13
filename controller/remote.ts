@@ -30,28 +30,26 @@ module.exports.findByName = function(name) {
 module.exports.addName = function(newName) {
     if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
         keys.Name = newName
-
-        //Write name in JSON
-        writeJSON(keys)
+        writeJSON(keys) //Write name in JSON
     }else {
         return `${newName} is alredy used`
     }
 }
 
-module.exports.sendSignals = function(updateRemote) {
+module.exports.sendSignals = async function(updateRemote) {
     let newRemote = JSON.stringify(updateRemote, null, 2)
 
-    fs.writeFile(path, newRemote, (err) => {
-        if(err) {
-            console.log('Update Fail!')
-            console.log(err)
-            return
-        }else {
-            console.log('Update Success!')
-        }
-    })
+    // fs.writeFile(path, newRemote, (err) => {
+    //     if(err) {
+    //         console.log('Update Fail!')
+    //         console.log(err)
+    //         return
+    //     }else {
+    //         console.log('Update Success!')
+    //     }
+    // })
 
-    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+    await writeJSON(newRemote)
 
     fs.readFile(path, "utf8", (err, newKey) => {
         if (err) {
