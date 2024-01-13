@@ -9,8 +9,6 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-const sleep = (ms) => new Promise(res => setTimeout(res, ms));
-
 module.exports.samsungPowerMain = async function(key) {
     let binary = KeyToBinary(key)
 
@@ -355,7 +353,7 @@ function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {
-                return console.log(err)
+                console.log(err)
                 // reject(err)
             }
             console.log('File created.')
@@ -384,12 +382,12 @@ function sendSignals(remote) {
             })
 
             setTimeout(() => {
-                // exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-                //     if (error) {
-                //         reject("Command sent")
-                //         console.log(stderr)
-                //     }
-                // }
+                exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+                    if (error) {
+                        reject("Command sent")
+                        console.log(stderr)
+                    }
+                }
                 resolve("Samsung")
             }, 500);
         })

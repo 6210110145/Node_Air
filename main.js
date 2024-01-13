@@ -11,6 +11,10 @@ const app = exprees()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.get('/', (req, res) => {
+    res.send('Hello World')
+})
+
 //get all value of remote
 app.get('/remote', (req, res) => {
     res.send(remote.findAll())
@@ -61,7 +65,9 @@ app.put('/remote/:name', async (req, res) => {
     }
 })
 
-const port = 8001
-app.listen(port, () => {
-    console.log("web server: http://localhost:" + port)
-})
+// const port = 8001
+// app.listen(port, () => {
+//     console.log("web server: http://localhost:" + port)
+// })
+
+app.listen(3001, () => console.log('Example app listening on port 3000!'))  //192.168.0.151:3001
