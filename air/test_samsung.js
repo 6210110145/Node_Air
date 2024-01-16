@@ -1,7 +1,6 @@
 const fs = require('fs');
 const exec = require('child_process').exec
 
-const start = '580 18000 '
 const header = '3000 9000 '
 const binary_1 = '500 1500 '
 const binary_0 = '500 500 '
@@ -11,12 +10,13 @@ const redix = 2
 
 module.exports.samsungMain = function(key) {
     let binary = KeyToBinary(key)
+    // console.log(binary.code)
     
     sendSignals(getRemote(binary.code, checksum(binary.checksum_byte_1), checksum(binary.checksum_byte)))
     .then((result) => { 
         console.log(result + ' success')
     })
-    .catch( result => {
+    .catch((result) => {
         console.log(result)
     })
 }
@@ -43,7 +43,7 @@ function KeyToBinary(state) {
     }
     
     //the second frame (7 Bytes)
-    // if(state.Power is change){
+    // if(state.Power is OFF){
     //     code += "GH10000000010010111111000000000000000000000000000000000000"
     // }
 
@@ -299,9 +299,7 @@ function getRemote(binary, checksum1, checksum2) {
     let text_checksum_2 = checksum2.toString()
     
     for(let i = 0; i < binary.length; i++) {
-        if(binary[i] == 'S') {
-            raw_code += start + '\n\t\t\t'
-        }else if(binary[i] == 'H') {
+        if(binary[i] == 'H') {
             raw_code += header
         }else if(binary[i] == 'B') { //checksum frame 1
             for(let k = 0; k < text_checksum_1.length; k++){

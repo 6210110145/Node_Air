@@ -1,6 +1,6 @@
 {
-  "Name": "panasonic",
-  "Power": "ON",
+  "Name": "samsung",
+  "Power": "OFF",
   "Mode": "COOL",
   "Temp": 25,
   "Fan": 0,
