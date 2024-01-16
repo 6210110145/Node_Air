@@ -1,12 +1,12 @@
 const exprees = require('express');
 const bodyParser = require('body-parser');
-// const fs = require('fs');
+const cors = require('cors');
 
 const remote =  require('./controller/remote.js');
 const keys = require('./data/key.json');
-// const path = './json/key.json'
 
 const app = exprees()
+app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -33,7 +33,7 @@ app.patch('/remote/:name', (req, res) => {
 })
 
 //update the value and send signals
-app.put('/remote/:name', async (req, res) => {
+app.put('/remote/:name', (req, res) => {
     const name = req.params.name
 
     if(keys.Name.toLowerCase() === name.toLowerCase()) {
