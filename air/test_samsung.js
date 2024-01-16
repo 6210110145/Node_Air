@@ -21,6 +21,7 @@ module.exports.samsungMain = function(key) {
     })
 }
 
+// Key to Binary Funtion
 function KeyToBinary(state) {
     let code = ''
     let checksum_byte_1 = "0011"
@@ -28,28 +29,28 @@ function KeyToBinary(state) {
 
     code += 'H'
 
-    //the first 7 Bytes
+    //the first frame (7 Bytes)
     code += "010000000100"
-    code += "B" //checksum (1001 1111)
+    code += "B" //checksum 1
     code += "00000000000000000000000000000000"
 
     if(state.Power == "ON") {
         code += "1111"
         checksum_byte_1 += "1111"
-    }else { //OFF
-        code += "0011 " 
+    }else { 
+        code += "0011" // OFF
         checksum_byte_1 += "0011"
     }
     
-    //the second 7 Bytes
+    //the second frame (7 Bytes)
     // if(state.Power is change){
     //     code += "GH10000000010010111111000000000000000000000000000000000000"
     // }
 
-    //the third 7 Bytes
+    //the third frames (7 Bytes)
     code += "GH" //Gap + Header
     code += "100000000100"
-    code += "C" //checksum
+    code += "C" //checksum 2
 
     if(state.Swing == "ON") {
         code += "0101"
@@ -60,15 +61,15 @@ function KeyToBinary(state) {
     }
 
     //Turbo is used only COOL 
-    if(state.Mode == "COOL"){
+    if(state.Mode == "COOL") {
         if(state.Turbo == "ON") {
             code += "1110"
             checksum_byte += "1110"
-        }else{
+        }else {
             code += "1000"
             checksum_byte += "1000"
         }
-    }else{
+    }else {
         code += "1000"
         checksum_byte += "1000"
     }
@@ -78,147 +79,148 @@ function KeyToBinary(state) {
 
     if(state.Mode == "COOL" || state.Mode == "AUTO") {
         switch(state.Temp) {
-            case '16':
+            case 16:
                 code += "0000"
                 checksum_byte += "0000"
                 break
-            case '17':
+            case 17:
                 code += "1000"
                 checksum_byte += "0001"
                 break
-            case '18':
+            case 18:
                 code += "0100"
                 checksum_byte += "1000"
                 break
-            case '19':
+            case 19:
                 code += "1100"
                 checksum_byte += "1100"
                 break
-            case '20':
+            case 20:
                 code += "0010"
                 checksum_byte += "1000"
                 break
-            case '21':
+            case 21:
                 code += "1010"
                 checksum_byte += "1100"
                 break
-            case '22':
+            case 22:
                 code += "0110"
                 checksum_byte += "1100"
                 break
-            case '23':
+            case 23:
                 code += "1110"
                 checksum_byte += "1110"
                 break
-            case '24':
+            case 24:
                 code += "0001"
                 checksum_byte += "1000"
                 break
-            case '25':
+            case 25:
                 code += "1001"
                 checksum_byte += "1100"
                 break
-            case '26':
+            case 26:
                 code += "0101"
                 checksum_byte += "1100"
                 break
-            case '27':
+            case 27:
                 code += "1101"
                 checksum_byte += "1110"
                 break
-            case '28':
+            case 28:
                 code += "0011"
                 checksum_byte += "1100"
                 break
-            case '29':
+            case 29:
                 code += "1011"
                 checksum_byte += "1110"
                 break
-            case '30':
+            case 30:
                 code += "0111"
                 checksum_byte += "1110"
                 break
         }
     }else if(state.Mode == "DRY"){
         switch(state.Temp) {
-            case "16":
-            case "17":
-            case "18":
+            case 16:
+            case 17:
+            case 18:
                 code += "0100"
                 checksum_byte += "1000"
                 break
-            case '19':
+            case 19:
                 code += "1100"
                 checksum_byte += "1100"
                 break
-            case '20':
+            case 20:
                 code += "0010"
                 checksum_byte += "1000"
                 break
-            case '21':
+            case 21:
                 code += "1010"
                 checksum_byte += "1100"
                 break
-            case '22':
+            case 22:
                 code += "0110"
                 checksum_byte += "1100"
                 break
-            case '23':
+            case 23:
                 code += "1110"
                 checksum_byte += "1110"
                 break
-            case '24':
+            case 24:
                 code += "0001"
                 checksum_byte += "1000"
                 break
-            case '25':
+            case 25:
                 code += "1001"
                 checksum_byte += "1100"
                 break
-            case '26':
+            case 26:
                 code += "0101"
                 checksum_byte += "1100"
                 break
-            case '27':
+            case 27:
                 code += "1101"
                 checksum_byte += "1110"
                 break
-            case '28':
+            case 28:
                 code += "0011"
                 checksum_byte += "110"
                 break
-            case '29':
+            case 29:
                 code += "1011"
                 checksum_byte += "1110"
                 break
-            case '30':
+            case 30:
                 code += "0111"
                 checksum_byte += "1110"
                 break
         }
     }else if(state.Mode == "FAN"){
         switch(state.Temp) {
-            case "16":
-            case "17":
-            case "18":
-            case "19":
-            case "20":
-            case "21":
-            case "22":
-            case "23":
-            case "24":
-            case "25":
-            case "26":
-            case "27":
-            case "28":
-            case "29":
-            case "30":
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
                 code += "0001"
                 checksum_byte += "1000"
                 break
         }
     }
 
+    //Fan
     if(state.Mode == "AUTO"){
         code += "1011"
         checksum_byte += "1110"
@@ -227,19 +229,19 @@ function KeyToBinary(state) {
         checksum_byte += "1000"
     }else { //COOL & FAN
         switch(state.Fan) {
-            case '0':
+            case 0:
                 code += "1000"
                 checksum_byte += "1000"
                 break
-            case '1':
+            case 1:
                 code += "1010"
                 checksum_byte += "1100"
                 break
-            case '2':
+            case 2:
                 code += "1001"
                 checksum_byte += "1100"
                 break
-            case "3":
+            case 3:
                 code += "1101"
                 checksum_byte += "1110"
                 break
@@ -290,6 +292,7 @@ function checksum(num) {
     return String(binary).split("").reverse().join("")  // reverse binary
 }
 
+// Binary to Signals Function
 function getRemote(binary, checksum1, checksum2) {
     let raw_code = ''
     let text_checksum_1 = checksum1.toString()
@@ -301,29 +304,29 @@ function getRemote(binary, checksum1, checksum2) {
         }else if(binary[i] == 'H') {
             raw_code += header
         }else if(binary[i] == 'B') { //checksum frame 1
-            for(let k = 0; k<text_checksum_1.length; k++){
+            for(let k = 0; k < text_checksum_1.length; k++){
                 if(text_checksum_1[k] == '1') {
                     raw_code += binary_1
-                    if((k%3 == 1)) {
+                    if(k%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }else if(text_checksum_1[k] == '0') {
                     raw_code += binary_0
-                    if((k%3 == 1)) {
+                    if(k%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }
             }
         }else if(binary[i] == 'C') { //checksum frame 2
-            for(let j = 0; j<text_checksum_2.length; j++){
+            for(let j = 0; j < text_checksum_2.length; j++){
                 if(text_checksum_2[j] == '1') {
                     raw_code += binary_1
-                    if((j%3 == 1)) {
+                    if(j%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }else if(text_checksum_2[j] == '0') {
                     raw_code += binary_0
-                    if((j%3 == 1)) {
+                    if(j%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }
@@ -386,7 +389,7 @@ function sendSignals(remote) {
             setTimeout(() => {
                 exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
                     if (error) {
-                        reject("Command sent")
+                        reject("Command sent fail")
                         console.log(stderr)
                     }
                 }
