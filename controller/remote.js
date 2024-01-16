@@ -30,7 +30,17 @@ module.exports.findByName = function(name) {
 module.exports.addName = function(newName) {
     if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
         keys.Name = newName
-        writeJSON(keys) //Write name in JSON
+        let newKey = JSON.stringify(keys, null, 2)
+
+        fs.writeFile(path, newKey, (err) => {
+            if(err) {
+                console.log(err)
+                return
+            }else {
+                console.log('Write Success! ')
+                return {success : true}
+            }
+        })
     }else {
         return `${newName} is alredy used`
     }
@@ -76,19 +86,5 @@ module.exports.sendSignals = function(updateRemote) {
                 })
             }
         } 
-    });
-}
-
-function writeJSON(data) {
-    let newKey = JSON.stringify(data, null, 2)
-
-    fs.writeFile(path, newKey, (err) => {
-        if(err) {
-            console.log(err)
-            return
-        }else {
-            console.log('Write Success! ')
-            return {success : true}
-        }
     });
 }

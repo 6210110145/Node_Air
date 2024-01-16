@@ -44,16 +44,16 @@ function KeyToBinary(state) {
     }
 
     switch(state.Fan) {
-        case '0':
+        case 0:
             code += "00"
             break
-        case '1':
+        case 1:
             code += "10"
             break
-        case '2':
+        case 2:
             code += "01"
             break
-        case '3':
+        case 3:
             code += "11"
             break
     }
@@ -71,49 +71,49 @@ function KeyToBinary(state) {
     }
 
     switch(state.Temp) {
-        case '16':
+        case 16:
             code += "0000"
             break
-        case '17':
+        case 17:
             code += "1000"
             break
-        case '18':
+        case 18:
             code += "0100"
             break
-        case '19':
+        case 19:
             code += "1100"
             break
-        case '20':
+        case 20:
             code += "0010"
             break
-        case '21':
+        case 21:
             code += "1010"
             break
-        case '22':
+        case 22:
             code += "0110"
             break
-        case '23':
+        case 23:
             code += "1110"
             break
-        case '24':
+        case 24:
             code += "0001"
             break
-        case '25':
+        case 25:
             code += "1001"
             break
-        case '26':
+        case 26:
             code += "0101"
             break
-        case '27':
+        case 27:
             code += "1101"
             break
-        case '28':
+        case 28:
             code += "0011"
             break
-        case '29':
+        case 29:
             code += "1011"
             break
-        case '30':
+        case 30:
             code += "0111"
             break
     }
@@ -147,53 +147,53 @@ function KeyToBinary(state) {
     //the last 4 bits (Checksum)
     if(state.Mode == "COOL") {
         switch(state.Temp) {
-            case '16':
+            case 16:
                 code += "101"
                 break
-            case '17':
+            case 17:
                 code += "011"
                 break
-            case '18':
+            case 18:
                 code += "111"
                 break
-            case '19':
+            case 19:
                 code += "000"
                 break
-            case '20':
+            case 20:
                 code += "100"
                 break
-            case '21':
+            case 21:
                 code += "010"
                 break
-            case '22':
+            case 22:
                 code += "110"
                 break
-            case '23':
+            case 23:
                 code += "001"
                 break
-            case '24':
+            case 24:
                 code += "101"
                 break
-            case '25':
+            case 25:
                 code += "011"
                 break
-            case '26':
+            case 26:
                 code += "111"
                 break
-            case '27':
+            case 27:
                 code += "000"
                 break
-            case '28':
+            case 28:
                 code += "100"
                 break
-            case '29':
+            case 29:
                 code += "010"
                 break
-            case '30':
+            case 30:
                 code += "110"
                 break
-        }if(state.Temp == "16" || state.Temp == "17" || state.Temp == "18" || state.Temp == "27" || 
-            state.Temp == "28" || state.Temp == "29" || state.Temp == "30") {
+        }if(state.Temp == 16 || state.Temp == 17 || state.Temp == 18 || state.Temp == 27 || 
+            state.Temp == 28 || state.Temp == 29 || state.Temp == 30) {
             if(state.Power == "ON") {
                 code += '0'
             }else {
@@ -208,53 +208,53 @@ function KeyToBinary(state) {
         }
     }else if(state.Mode == "DRY") {
         switch(state.Temp) {
-            case '16':
+            case 16:
                 code += "011"
                 break
-            case '17':
+            case 17:
                 code += "111"
                 break
-            case '18':
+            case 18:
                 code += "000"
                 break
-            case '19':
+            case 19:
                 code += "100"
                 break
-            case '20':
+            case 20:
                 code += "010"
                 break
-            case '21':
+            case 21:
                 code += "110"
                 break
-            case '22':
+            case 22:
                 code += "001"
                 break
-            case '23':
+            case 23:
                 code += "101"
                 break
-            case '24':
+            case 24:
                 code += "011"
                 break
-            case '25':
+            case 25:
                 code += "111"
                 break
-            case '26':
+            case 26:
                 code += "000"
                 break
-            case '27':
+            case 27:
                 code += "100"
                 break
-            case '28':
+            case 28:
                 code += "010"
                 break
-            case '29':
+            case 29:
                 code += "110"
                 break
-            case '30':
+            case 30:
                 code += "001"
                 break
-        }if(state.Temp == "16" || state.Temp == "17" || state.Temp == "26" || state.Temp == "27" || 
-            state.Temp == "28" || state.Temp == "29" || state.Temp == "30") {
+        }if(state.Temp == 16 || state.Temp == 17 || state.Temp == 26 || state.Temp == 27 || 
+            state.Temp == 28 || state.Temp == 29 || state.Temp == 30) {
             if(state.Power == "ON") {
                 code += '0'
             }else {
@@ -269,54 +269,54 @@ function KeyToBinary(state) {
         }
     }else if(state.Mode == "FAN") {
         switch(state.Temp) {
-            case '16':
+            case 16:
                 code += "111"
                 break
-            case '17':
+            case 17:
                 code += "000"
                 break
-            case '18':
+            case 18:
                 code += "100"
                 break
-            case '19':
+            case 19:
                 code += "010"
                 break
-            case '20':
+            case 20:
                 code += "110"
                 break
-            case '21':
+            case 21:
                 code += "001"
                 break
-            case '22':
+            case 22:
                 code += "101"
                 break
-            case '23':
+            case 23:
                 code += "011"
                 break
-            case '24':
+            case 24:
                 code += "111"
                 break
-            case '25':
+            case 25:
                 code += "000"
                 break
-            case '26':
+            case 26:
                 code += "100"
                 break
-            case '27':
+            case 27:
                 code += "010"
                 break
-            case '28':
+            case 28:
                 code += "110"
                 break
-            case '29':
+            case 29:
                 code += "001"
                 break
-            case '30':
+            case 30:
                 code += "101"
                 break
         }
-        if(state.Temp == "16" || state.Temp == "25" || state.Temp == "26" || state.Temp == "27" || 
-            state.Temp == "28" || state.Temp == "29" || state.Temp == "30") {
+        if(state.Temp == 16 || state.Temp == 25 || state.Temp == 26 || state.Temp == 27 || 
+            state.Temp == 28 || state.Temp == 29 || state.Temp == 30) {
             if(state.Power == "ON") {
                 code += '0'
             }else {
@@ -405,7 +405,7 @@ function sendSignals(remote) {
             setTimeout(() => {
                 exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
                     if (error) {
-                        reject("Command sent")
+                        reject("Command sent fail")
                         console.log(stderr)
                     }
                 }
