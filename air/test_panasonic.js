@@ -8,7 +8,7 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
-module.exports.panasonicMain = async function(key) {
+module.exports.panasonicMain = function(key) {
     let binary = KeyToBinary(key)
     
     sendSignals(getRemote(binary.code, checksum(binary.sum))).then(result => {
@@ -63,63 +63,63 @@ function KeyToBinary(state) {
     sum += decimal(checksum_byte_1)
 
     switch(state.Temp) {
-        case '16':
+        case 16:
             code += "00000100"
             sum += decimal("00000100")
             break
-        case '17':
+        case 17:
             code += "01000100"
             sum += decimal("01000100")
             break
-        case '18':
+        case 18:
             code += "00100100"
             sum += decimal("00100100")
             break
-        case '19':
+        case 19:
             code += "01100100"
             sum += decimal("01100100")
             break
-        case '20':
+        case 20:
             code += "00010100"
             sum += decimal("00010100")
             break
-        case '21':
+        case 21:
             code += "01010100"
             sum += decimal("01010100")
             break
-        case '22':
+        case 22:
             code += "00110100"
             sum += decimal("00110100")
             break
-        case '23':
+        case 23:
             code += "01110100"
             sum += decimal("01110100")
             break
-        case '24':
+        case 24:
             code += "00001100"
             sum += decimal("00001100")
             break
-        case '25':
+        case 25:
             code += "01001100"
             sum += decimal("01001100")
             break
-        case '26':
+        case 26:
             code += "00101100"
             sum += decimal("00101100")
             break
-        case '27':
+        case 27:
             code += "01101100"
             sum += decimal("01101100")
             break
-        case '28':
+        case 28:
             code += "00011100"
             sum += decimal("00011100")
             break
-        case '29':
+        case 29:
             code += "01011100"
             sum += decimal("01011100")
             break
-        case '30':
+        case 30:
             code += "00111100"
             sum += decimal("00111100")
             break
@@ -142,19 +142,19 @@ function KeyToBinary(state) {
         checksum_byte_2 += "0101"
     }else {
         switch(state.Fan) {
-            case '0':
+            case 0:
                 code += "0101"
                 checksum_byte_2 += "0101"
                 break
-            case '1':
+            case 1:
                 code += "1100"
                 checksum_byte_2 += "1100"
                 break
-            case '2':
+            case 2:
                 code += "1010"
                 checksum_byte_2 += "1010"
                 break
-            case "3":
+            case 3:
                 code += "1110"
                 checksum_byte_2 += "1110"
                 break
@@ -280,7 +280,7 @@ function sendSignals(remote) {
             setTimeout(() => {
                 exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
                     if (error) {
-                        reject("Command sent")
+                        reject("Command sent fail")
                         console.log(stderr)
                     }
                 }
