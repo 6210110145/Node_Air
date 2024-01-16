@@ -20,6 +20,7 @@ module.exports.panasonicMain = function(key) {
     })
 }
 
+// Key to Binary Funtion
 function KeyToBinary(state) {
     let code = 'H' //head
     let checksum_byte_1 = ''
@@ -210,24 +211,24 @@ function getRemote(binary, checksum) {
             raw_code += header
         }else  if(binary[i] == '1') {
             raw_code += binary_1
-            if((i%3 == 1)) {
+            if(i%3 == 1) {
                 raw_code += '\n\t\t\t'
             }
         }else if(binary[i] == '0') {
             raw_code += binary_0
-            if((i%3 == 1)) {
+            if(i%3 == 1) {
                 raw_code += '\n\t\t\t'
             }
-        }else if(binary[i] == 'C') { //checksum
+        }else if(binary[i] == 'C') { // Checksum
             for(let j = 0; j < text_checksum.length; j++){
                 if(text_checksum[j] == '1') {
                     raw_code += binary_1
-                    if((j%3 == 1)) {
+                    if(j%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }else if(text_checksum[j] == '0') {
                     raw_code += binary_0
-                    if((j%3 == 1)) {
+                    if(j%3 == 1) {
                         raw_code += '\n\t\t\t'
                     }
                 }
@@ -245,6 +246,7 @@ function getRemote(binary, checksum) {
     'gap          124928\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
+// Send signal Function
 function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {

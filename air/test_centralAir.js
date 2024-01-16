@@ -1,9 +1,9 @@
 const fs = require('fs');
 const exec = require('child_process').exec
 
+const header = '9000 4500 '
 const binary_1 = '650 1600 '
 const binary_0 = '650 550 '
-const header = '9000 4500 '
 const gap = '650 20000'
 const tail = '650 '
 
@@ -18,6 +18,7 @@ module.exports.centralairMain = function(key) {
     })
 }
 
+// Key to Binary Function
 function KeyToBinary(state) {
     var code = 'H'
 
@@ -342,6 +343,7 @@ function KeyToBinary(state) {
     return code
 }
 
+// Binary to lircd Function
 function getRemote(binary) {
     var raw_code = ''
     for(let i = 0; i < binary.length; i++) {
@@ -349,12 +351,12 @@ function getRemote(binary) {
             raw_code += header
         }else if(binary[i] == '1') {
             raw_code += binary_1
-            if((i%3 == 1)) {
+            if(i%3 == 1) {
                 raw_code += '\n\t\t\t'
             }
         }else if(binary[i] == '0') {
             raw_code += binary_0
-            if((i%3 == 1)) {
+            if(i%3 == 1) {
                 raw_code += '\n\t\t\t'
             }
         }else if(binary[i] == "G") {
@@ -370,6 +372,7 @@ function getRemote(binary) {
             '\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
+// Send signal Function
 function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {

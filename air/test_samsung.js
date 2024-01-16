@@ -224,7 +224,7 @@ function KeyToBinary(state) {
     if(state.Mode == "AUTO"){
         code += "1011"
         checksum_byte += "1110"
-    }else if(state.Mode == "DRY") {
+    }else if(state.Mode == "DRY") { //Fix Fan 0
         code += "1000"
         checksum_byte += "1000"
     }else { //COOL & FAN
@@ -285,7 +285,7 @@ function KeyToBinary(state) {
 
 // Checksum Function
 function checksum(num) {
-    let count1s = num.split('1').length-1 // นับจำนวนของ 1s
+    let count1s = num.split('1').length-1 // นับจำนวนของบิต 1s
     let decimal = 255 - count1s           // ลบด้วย 255
     let binary = String(decimal.toString( redix ).padStart(8, '0'))  // แปลงเป็น binary
 
@@ -352,6 +352,7 @@ function getRemote(binary, checksum1, checksum2) {
     'gap          124928\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
+// Send signal Function
 function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
