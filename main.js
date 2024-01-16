@@ -17,12 +17,14 @@ app.get('/', (req, res) => {
 
 //get all value of remote
 app.get('/remote', (req, res) => {
+    res.status(200)
     res.send(remote.findAll())
 })
 
 // get remote by name
 app.get('/remote/:name', (req, res) => {
     const name = req.params.name
+    res.status(200)
     res.send(remote.findByName(name))
 })
 

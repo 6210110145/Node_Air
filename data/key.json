@@ -1,12 +1,12 @@
 {
-  "Name": "samsung",
-  "Power": "OFF",
+  "Name": "panasonic",
+  "Power": "ON",
   "Mode": "COOL",
-  "Temp": 25,
+  "Temp": 26,
   "Fan": 0,
-  "Swing": "OFF",
+  "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "ON"
+  "Light": "OFF"
 }
