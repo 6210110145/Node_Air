@@ -7,14 +7,19 @@ const binary_0 = '450 450 '
 const tail = '450 '
 const redix = 2
 
-export function mitsubishiMain(key) {
+module.exports.mitsubishiMain = function(key) {
     let binary = KeyToBinary(key)
-    
-    sendSignals(getRemote(binary.code, checksum(binary.sum)))
-
     console.log(binary)
     console.log(checksum(binary.sum))
     console.log(getRemote(binary.code, checksum(binary.sum)))
+
+    sendSignals(getRemote(binary.code, checksum(binary.sum))).then((result) => {
+        console.log(result + " success")
+    })
+    .catch(result => {
+        console.log(result)
+        return false
+    })
 }
 
 function KeyToBinary(state) {
@@ -221,40 +226,48 @@ function getRemote(binary, checksum) {
     'gap          124928\n\n\t\tbegin raw_codes\n\n\t\t  name command\n\n'+'\t\t\t'+raw_code+'\n\n\t\tend raw_codes\n\nend remote\n';
 }
 
+// Send signal Function
 function sendSignals(remote) {
-    fs.writeFile('./AIR.lircd.conf', remote, (err) => {
-        if(err) {
-            return console.log(err)
-        }
-        console.log('File created.')
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./AIR.lircd.conf', remote, (err) => {
+            if(err) {
+                console.log(err)
+                // reject(err)
+            }
+            console.log('File created.')
 
     
-        exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
-        console.log("File copyed.");
+            exec('sudo cp ./AIR.lircd.conf /etc/lirc/lircd.conf', (error, stdout, stderr) => {
+                if (error) {
+                    console.log(stderr)
+                    // reject(err)
+                    }   
+                })
+                console.log("File copyed.");
 
-        exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
+            exec("sudo systemctl start lircd.socket", (error, stdout, stderr) => {
+                if (error) {
+                    console.log(stderr)
+                    // reject(error)
+                }
+            })
 
-        exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        })
+            exec("sudo systemctl stop lircd", (error, stdout, stderr) => {
+                if (error) {
+                    console.log(stderr)
+                    // reject(error)
+                }
+            })
 
-        setTimeout(() => {
-        console.log("Command sent");
-        exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
-            if (error) {
-                console.log(stderr)
-            }
-        }
-        }, 500);
+            setTimeout(() => {
+                exec('irsend SEND_ONCE AIR command'), (error, stdout, stderr) => {
+                    if (error) {
+                        reject("Command sent fail")
+                        console.log(stderr)
+                    }
+                }
+                resolve("Mitsubishi")
+            }, 500);
+        })
     })
 }

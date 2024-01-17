@@ -3,6 +3,7 @@ const { centralairMain } = require('../air/centralAir.js')
 const { panasonicMain } = require('../air/panasonic.js');
 const { samsungMain } = require('../air/samsung.js');
 const { samsungPowerMain } = require('../air/samsungpower.js');
+const { mitsubishiMain } = require('../air/mitsubishi.js');
 
 const path = './data/key.json'
 const keys = require('../data/key.json');
@@ -74,7 +75,9 @@ module.exports.sendSignals = function(updateRemote) {
                 }else {
                     samsungMain(newKeyObj)
                 }       
-            }else {
+            }else if (newKeyObj.Name.toLocaleLowerCase() == 'mitsubishi') {
+                mitsubishiMain(newKeyObj)
+            }else{
                 return({
                     success: false,
                     message: `Can Not Send Signals`

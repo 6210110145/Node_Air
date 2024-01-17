@@ -52,7 +52,7 @@ app.put('/remote/:name', (req, res) => {
         
         remote.sendSignals(updateRemote)
 
-        res.send({
+        res.status(200).send({
             success: true,
             message: 'Air SEND'
         })

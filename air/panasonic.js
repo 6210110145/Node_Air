@@ -13,8 +13,6 @@ module.exports.panasonicMain = function(key) {
     console.log(binary)
     console.log(binary.sum)
     console.log(checksum(binary.sum))
-
-    // sendSignals(getRemote(binary.code, checksum(binary.sum)))
     
     sendSignals(getRemote(binary.code, checksum(binary.sum))).then(result => { 
         console.log(result + ' success')
