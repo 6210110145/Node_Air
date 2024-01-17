@@ -11,10 +11,6 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
-
 //get all value of remote
 app.get('/remote', (req, res) => {
     res.status(200).send(remote.findAll())
