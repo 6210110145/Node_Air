@@ -35,7 +35,7 @@ module.exports.addName = function(newName) {
         fs.writeFile(path, newKey, (err) => {
             if(err) {
                 console.log(err)
-                return
+                return `Write Fail`
             }else {
                 console.log('Write Success! ')
                 return {success : true}
@@ -51,9 +51,8 @@ module.exports.sendSignals = function(updateRemote) {
 
     fs.writeFile(path, newRemote, (err) => {
         if(err) {
-            console.log('Update Fail!')
             console.log(err)
-            return
+            return `Update Fail`
         }else {
             console.log('Update Success!')
         }
@@ -62,15 +61,11 @@ module.exports.sendSignals = function(updateRemote) {
     fs.readFile(path, "utf8", (err, newKey) => {
         if (err) {
             console.log(err)
-            return;
+            return `${err}`
         }else {
             let newKeyObj = JSON.parse(newKey)
             if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
                 centralairMain(newKeyObj)
-                // return({
-                //     success: true,
-                //     message: 'Central Air can send'
-                // })
             }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
                 panasonicMain(newKeyObj)
             }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
