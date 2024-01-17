@@ -1,8 +1,8 @@
 const fs = require('fs');
-const { centralairMain } = require('../air/test_centralAir.js')
-const { panasonicMain } = require('../air/test_panasonic.js');
-const { samsungMain } = require('../air/test_samsung.js');
-const { samsungPowerMain } = require('../air/test_samsungpower.js');
+const { centralairMain } = require('../air/centralAir.js')
+const { panasonicMain } = require('../air/panasonic.js');
+const { samsungMain } = require('../air/samsung.js');
+const { samsungPowerMain } = require('../air/samsungpower.js');
 
 const path = './data/key.json'
 const keys = require('../data/key.json');
