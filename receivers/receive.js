@@ -58,17 +58,7 @@ async function receiveMain() {
     await writeJSON(newKey)
 }
 
-async function checkRemote(name, binary) {
-    if(name === 'centralair') {
-        let newKey = await convertKeyCentralAir(binary)
-        return newKey
-    }else if (name === 'samsung') {
-        // let newKey = await convertKeyCentral(binary_code)
-        // return newKey
-    }else {
-        return `${name} not Found`
-    }
-}
+
 
 // keep the pulse-space from signal file Function
 async function readPulseSpace() {
@@ -135,6 +125,19 @@ async function convertToBinary(pulseDurations, spaceDurations) {
     }
 
     return binaryValues.join('');
+}
+
+// Check name of Air && Convert to KEYS Function
+async function checkRemote(name, binary) {
+    if(name === 'centralair') {
+        let newKey = await convertKeyCentralAir(binary)
+        return newKey
+    }else if (name === 'samsung') {
+        // let newKey = await convertKeyCentral(binary_code)
+        // return newKey
+    }else {
+        return `${name} not Found`
+    }
 }
 
 //Update JSON Function
