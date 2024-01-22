@@ -2,10 +2,11 @@ const exec = require('child_process').exec
 const fs = require('fs');
 const watch = require('node-watch');
 
-const { convertKeyCentral } = require("./receiveCentralAir.js");
+const { convertKeyCentralAir } = require("./receiveCentralAir.js");
 
 const path_file_signal = './signal.txt'
 const path_JSON = '../data/key.json'
+const keys = require('../data/key.json');
 
 exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
     if (error) {
@@ -39,23 +40,34 @@ watch(path_file_signal, { delay: 500 }, (event, name) => {
     }
 });
 
-async function receiveMain() {
-    // let text = await updateFileSignal()
-    // console.log(text)
-    
+async function receiveMain() { 
+    const remoteName = keys.Name.toLocaleLowerCase()
+
     let pulse = await readPulseSpace()
     console.log(pulse)
     
-    let binary_code = await convertToBinary(pulse.pulse_values, pulse.space_values)
-    console.log(binary_code)
+    let binaryCode = await convertToBinary(pulse.pulse_values, pulse.space_values)
+    console.log(binaryCode)
     
-    let new_key = await convertKeyCentral(binary_code)
-    console.log(new_key)
-
+    let newKey = await checkRemote(remoteName, binaryCode)
+    console.log(newKey)
+    
     let text_clear = await clearFile()
     console.log(text_clear)
 
-    await writeJSON(new_key)
+    await writeJSON(newKey)
+}
+
+async function checkRemote(name, binary) {
+    if(name === 'centralair') {
+        let newKey = await convertKeyCentralAir(binary)
+        return newKey
+    }else if (name === 'samsung') {
+        // let newKey = await convertKeyCentral(binary_code)
+        // return newKey
+    }else {
+        return `${name} not Found`
+    }
 }
 
 // keep the pulse-space from signal file Function
