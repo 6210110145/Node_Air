@@ -7,6 +7,7 @@ const binary_0 = '450 450 '
 const tail = '450 '
 const redix = 2
 
+//Mitsubishi AirConditioner (Ceiling Suspended Type)
 module.exports.mitsubishiMain = function(key) {
     let binary = KeyToBinary(key)
     console.log(binary)

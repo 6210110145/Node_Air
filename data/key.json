@@ -1,12 +1,12 @@
 {
-  "Name": "mitsubishi",
+  "Name": "CentralAir",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 25,
-  "Fan": 0,
-  "Swing": "ON",
+  "Temp": 27,
+  "Fan": 1,
+  "Swing": "OFF",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "OFF"
+  "Light": "ON"
 }
