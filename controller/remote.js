@@ -5,10 +5,13 @@ const { samsungMain } = require('../air/samsung.js');
 const { samsungPowerMain } = require('../air/samsungpower.js');
 const { mitsubishiMain } = require('../air/mitsubishi.js');
 
-const path = './data/key.json'
-const keys = require('../data/key.json');
+const path_JSON = './data/key.json';
+
+// let keys = JSON.parse(fs.readFileSync(path_JSON));
 
 module.exports.findAll = function() {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
     return {
         success : true,
         keys
@@ -16,6 +19,8 @@ module.exports.findAll = function() {
 }
 
 module.exports.findByName = function(name) {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
     if(keys.Name === "NULL") {
         return `Name of Air does not added`
     }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
@@ -29,11 +34,13 @@ module.exports.findByName = function(name) {
 }
 
 module.exports.addName = function(newName) {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
     if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
         keys.Name = newName
         let newKey = JSON.stringify(keys, null, 2)
 
-        fs.writeFile(path, newKey, (err) => {
+        fs.writeFile(path_JSON, newKey, (err) => {
             if(err) {
                 console.log(err)
                 return `Write Fail`
@@ -50,7 +57,7 @@ module.exports.addName = function(newName) {
 module.exports.sendSignals = function(updateRemote) {
     let newRemote = JSON.stringify(updateRemote, null, 2)
 
-    fs.writeFile(path, newRemote, (err) => {
+    fs.writeFile(path_JSON, newRemote, (err) => {
         if(err) {
             console.log(err)
             return `Update Fail`
@@ -59,7 +66,7 @@ module.exports.sendSignals = function(updateRemote) {
         }
     })
 
-    fs.readFile(path, "utf8", (err, newKey) => {
+    fs.readFile(path_JSON, "utf8", (err, newKey) => {
         if (err) {
             console.log(err)
             return `${err}`
@@ -81,7 +88,7 @@ module.exports.sendSignals = function(updateRemote) {
                 return({
                     success: false,
                     message: `Can Not Send Signals`
-                })
+                });
             }
         } 
     });

@@ -1,59 +1,61 @@
-const exec = require('child_process').exec
 const fs = require('fs');
-const watch = require('node-watch');
+
+// const watch = require('node-watch');
+// const exec = require('child_process').exec
 
 const { convertKeyCentralAir } = require('./receiveCentralAir.js')
 // import { convertKeySamsung } from "./test_receive_samsung.js";
 
-const path_file_signal = './receivers/signal.txt';
+const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
 
-let keys = JSON.parse(fs.readFileSync(path_JSON));
+// let keys = JSON.parse(fs.readFileSync(path_JSON));
+let keys = require('../data/key.json');
 
 // const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-module.exports.runMode2 = () => {   
-    // exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
-    //     if (error) {
-    //         console.log(`error: ${error.message}`);
-    //         return;
-    //     }
-    //     if (stderr) {
-    //         console.log(`stderr: ${stderr}`);
-    //         return;
-    //     }
-    //     console.log(stdout)
-    // }
-}
+// module.exports.runMode2 = () => {   
+//     // exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
+//     //     if (error) {
+//     //         console.log(`error: ${error.message}`);
+//     //         return;
+//     //     }
+//     //     if (stderr) {
+//     //         console.log(`stderr: ${stderr}`);
+//     //         return;
+//     //     }
+//     //     console.log(stdout)
+//     // }
+// }
 
-watch(path_file_signal, { delay: 500 }, (event, name) => {
-    if(event){
-        console.log(event)
+// watch(path_file_signal, { delay: 500 }, (event, name) => {
+//     if(event){
+//         console.log(event)
 
-        if(event == 'remove'){
-            runMode2()
+//         if(event == 'remove'){
+//             runMode2()
 
-            let text = creatNewFile()
-            console.log(text)
-        }else {
-            fs.readFile(path_file_signal, (err, data) => {
-                if(err) {
-                    console.log(err)
-                    return
-                }else {
-                    if (data.length == 0) {
-                        console.log(`${name} is empty!`)
-                        return
-                    }else {
-                        receiveMain()
-                    }
-                }
-            });
-        }
-    }
-});
+//             let text = creatNewFile()
+//             console.log(text)
+//         }else {
+//             fs.readFile(path_file_signal, (err, data) => {
+//                 if(err) {
+//                     console.log(err)
+//                     return
+//                 }else {
+//                     if (data.length == 0) {
+//                         console.log(`${name} is empty!`)
+//                         return
+//                     }else {
+//                         receiveMain()
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// });
 
-async function receiveMain() { 
+module.exports.receiveMain = async() => { 
     const remoteName = keys.Name.toLocaleLowerCase()
     console.log(remoteName)
 
@@ -66,12 +68,12 @@ async function receiveMain() {
     let newKey = await checkRemote(remoteName, binaryCode)
     console.log(newKey)
     
-    // await updateJSON(newKey)
+    await updateJSON(newKey)
 
-    // // delete file in 60 seconds or another
-    // setTimeout(() => {
-    //    deleteFile() 
-    // }, 60000)
+    // delete file in 60 seconds or another
+    setTimeout(() => {
+       deleteFile() 
+    }, 60000)
 }
 
 // keep the pulse-space from signal file Function
@@ -156,7 +158,9 @@ async function checkRemote(name, binary) {
 
 //Update JSON (Database) Function
 async function updateJSON(remote) {
-    fs.writeFileSync(path_JSON, remote, (err) => {
+    let newRemote = JSON.stringify(remote, null, 2)
+
+    fs.writeFileSync(path_JSON, newRemote, (err) => {
         if(err) {
             console.log(err)
             return
@@ -186,7 +190,7 @@ function deleteFile() {
 }
 
 // Create new signal file Function After run Mode2 again
-function creatNewFile() {
+module.exports.createNewFile = () => {
     fs.writeFileSync("signal.txt", "")
     return `create New signal file`
 }

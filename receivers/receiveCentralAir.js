@@ -72,7 +72,5 @@ module.exports.convertKeyCentralAir = async (binaryCode) => {
         KEY.Light = "OFF"
     }
 
-    let newRemote = JSON.stringify(KEY, null, 2)
-
     return newRemote
 }
