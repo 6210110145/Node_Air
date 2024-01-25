@@ -5,24 +5,25 @@ const watch = require('node-watch');
 const { convertKeyCentralAir } = require('./receiveCentralAir.js')
 // import { convertKeySamsung } from "./test_receive_samsung.js";
 
-const path_file_signal = './signal.txt';
-const path_JSON = './reKey.json';
+const path_file_signal = './receivers/signal.txt';
+const path_JSON = './data/key.json';
 
-let keys = JSON.parse(fs.readFileSync("../data/key.json"));
+let keys = JSON.parse(fs.readFileSync(path_JSON));
+
 // const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-export function runMode2(){   
-    exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(stdout)
-    }
+module.exports.runMode2 = () => {   
+    // exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.log(`error: ${error.message}`);
+    //         return;
+    //     }
+    //     if (stderr) {
+    //         console.log(`stderr: ${stderr}`);
+    //         return;
+    //     }
+    //     console.log(stdout)
+    // }
 }
 
 watch(path_file_signal, { delay: 500 }, (event, name) => {
@@ -54,6 +55,7 @@ watch(path_file_signal, { delay: 500 }, (event, name) => {
 
 async function receiveMain() { 
     const remoteName = keys.Name.toLocaleLowerCase()
+    console.log(remoteName)
 
     let pulse = await readPulseSpace()
     console.log(pulse)
@@ -64,12 +66,12 @@ async function receiveMain() {
     let newKey = await checkRemote(remoteName, binaryCode)
     console.log(newKey)
     
-    await writeJSON(newKey)
+    // await updateJSON(newKey)
 
-    // delete file in 60 seconds or another
-    setTimeout(() => {
-       deleteFile() 
-    }, 60000)
+    // // delete file in 60 seconds or another
+    // setTimeout(() => {
+    //    deleteFile() 
+    // }, 60000)
 }
 
 // keep the pulse-space from signal file Function
@@ -153,7 +155,7 @@ async function checkRemote(name, binary) {
 }
 
 //Update JSON (Database) Function
-async function writeJSON(remote) {
+async function updateJSON(remote) {
     fs.writeFileSync(path_JSON, remote, (err) => {
         if(err) {
             console.log(err)

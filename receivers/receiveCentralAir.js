@@ -1,8 +1,11 @@
 const fs = require('fs');
 
 // Convert binary to KEY Function
-module.exports.convertKeyCentralAir = async (binary) => {
-    let KEY = JSON.parse(fs.readFileSync("../data/key.json"))
+module.exports.convertKeyCentralAir = async (binaryCode) => {
+    let KEY = JSON.parse(fs.readFileSync("./data/key.json"))
+
+    let binary = binaryCode.substring(binaryCode.length - 70) //Ex. H10011000011000000000000000001010010G00000000000001000000000000001111T
+    console.log(binary)
 
     let mode = binary.substring(1, 4)
     let power = binary[4]
