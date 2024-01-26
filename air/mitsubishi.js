@@ -10,9 +10,9 @@ const redix = 2
 //Mitsubishi AirConditioner (Ceiling Suspended Type)
 module.exports.mitsubishiMain = function(key) {
     let binary = KeyToBinary(key)
-    console.log(binary)
-    console.log(checksum(binary.sum))
-    console.log(getRemote(binary.code, checksum(binary.sum)))
+    // console.log(binary)
+    // console.log(checksum(binary.sum))
+    // console.log(getRemote(binary.code, checksum(binary.sum)))
 
     sendSignals(getRemote(binary.code, checksum(binary.sum))).then((result) => {
         console.log(result + " success")

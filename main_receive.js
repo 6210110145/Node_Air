@@ -7,7 +7,7 @@ const { receiveMain, createNewFile } = require('./controller/receive.js')
 const path_file_signal = './signal.txt';
 
 // Run Mode2 Command every time
-runMode2 = () => {   
+function runMode2() {   
     // exec('mode2 -d /dev/lirc1 > signal.txt'), (error, stdout, stderr) => {
     //     if (error) {
     //         console.log(`error: ${error.message}`)
@@ -20,6 +20,8 @@ runMode2 = () => {
     //     console.log(stdout)
     // }
 }
+
+runMode2()
 
 // If signal file is cheanged 
 watch(path_file_signal, { delay: 500 }, (event, name) => {

@@ -10,9 +10,9 @@ const redix = 2
 
 module.exports.panasonicMain = function(key) {
     let binary = KeyToBinary(key)
-    console.log(binary)
-    console.log(binary.sum)
-    console.log(checksum(binary.sum))
+    // console.log(binary)
+    // console.log(binary.sum)
+    // console.log(checksum(binary.sum))
     
     sendSignals(getRemote(binary.code, checksum(binary.sum))).then(result => { 
         console.log(result + ' success')

@@ -3,17 +3,16 @@ const fs = require('fs');
 const { convertKeyCentralAir } = require('../receivers/receiveCentralAir.js');
 const { convertKeySamsung } = require("../receivers/receiveSamsung.js");
 const { convertKeyPanasonic } = require("../receivers/receivePanasonic.js");
-let KEY = require('../data/key.json');
+// let KEY = require('../data/key.json');
 
 const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
 
-// let keys = JSON.parse(fs.readFileSync(path_JSON));
-
-
 // const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 module.exports.receiveMain = async() => { 
+    let KEY = JSON.parse(fs.readFileSync(path_JSON));
+
     const remoteName = KEY.Name.toLocaleLowerCase()
     // console.log(remoteName)
 
@@ -136,6 +135,7 @@ deleteFile = () => {
         }else {
             if(data.length == 0) {
                 console.log("file is still alive")
+                return
             }else {
                 fs.unlinkSync(path_file_signal);
                 console.log("delete file complete")
