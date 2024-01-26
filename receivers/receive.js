@@ -33,7 +33,7 @@ module.exports.receiveMain = async() => {
 }
 
 // keep the pulse-space from signal file Function
-async function readPulseSpace() {
+readPulseSpace = async () => {
     let pulseValues = []
     let spaceValues = []
 
@@ -72,7 +72,7 @@ async function readPulseSpace() {
 }
 
 // Convert signal to binary Function
-async function convertToBinary(pulseDurations, spaceDurations) {
+convertToBinary = async (pulseDurations, spaceDurations) => {
     let binaryValues = []
 
     for (let i = 0; i < spaceDurations.length && i < pulseDurations.length; i++) {
@@ -99,7 +99,7 @@ async function convertToBinary(pulseDurations, spaceDurations) {
 }
 
 // Check name of Air && Convert to KEYS Function
-async function checkRemote(name, binary) {
+checkRemote = async (name, binary) => {
     if(name === 'centralair') {
         let newKey = await convertKeyCentralAir(binary)
         return newKey
@@ -113,7 +113,7 @@ async function checkRemote(name, binary) {
 }
 
 //Update JSON (Database) Function
-async function updateJSON(newRemote) {
+updateJSON = async (newRemote) => {
     fs.writeFileSync(path_JSON, newRemote, (err) => {
         if(err) {
             console.log(err)
@@ -124,7 +124,7 @@ async function updateJSON(newRemote) {
 }
 
 // Delete file Function
-function deleteFile() {
+deleteFile = () => {
     fs.readFile(path_file_signal, (err, data) => {
         if(err) {
             console.log(err)
