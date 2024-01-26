@@ -1,7 +1,8 @@
 const fs = require('fs');
 
-const { convertKeyCentralAir } = require('./receiveCentralAir.js')
+const { convertKeyCentralAir } = require('./receiveCentralAir.js');
 const { convertKeySamsung } = require("./receiveSamsung.js");
+const { convertKeyPanasonic } = require("./receivePanasonic.js");
 
 const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
@@ -105,6 +106,9 @@ checkRemote = async (name, binary) => {
         return newKey
     }else if (name === 'samsung') {
         let newKey = await convertKeySamsung(binary)
+        return newKey
+    }else if(name === 'panasonic') {
+        let newKey = await convertKeyPanasonic(binary)
         return newKey
     }else {
         console.log(`${name} not Found!!`)
