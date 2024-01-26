@@ -2,7 +2,7 @@ const exec = require('child_process').exec
 const watch = require('node-watch');
 const fs = require('fs');
 
-const { receiveMain, createNewFile } = require('./receivers/receive.js')
+const { receiveMain, createNewFile } = require('./controller/receive.js')
 
 const path_file_signal = './signal.txt';
 

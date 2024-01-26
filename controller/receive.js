@@ -1,19 +1,20 @@
 const fs = require('fs');
 
-const { convertKeyCentralAir } = require('./receiveCentralAir.js');
-const { convertKeySamsung } = require("./receiveSamsung.js");
-const { convertKeyPanasonic } = require("./receivePanasonic.js");
+const { convertKeyCentralAir } = require('../receivers/receiveCentralAir.js');
+const { convertKeySamsung } = require("../receivers/receiveSamsung.js");
+const { convertKeyPanasonic } = require("../receivers/receivePanasonic.js");
+let KEY = require('../data/key.json');
 
 const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
 
 // let keys = JSON.parse(fs.readFileSync(path_JSON));
-let keys = require('../data/key.json');
+
 
 // const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 module.exports.receiveMain = async() => { 
-    const remoteName = keys.Name.toLocaleLowerCase()
+    const remoteName = KEY.Name.toLocaleLowerCase()
     // console.log(remoteName)
 
     let pulse = await readPulseSpace()

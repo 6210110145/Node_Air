@@ -13,7 +13,6 @@ module.exports.findAll = function() {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     return {
-        success : true,
         keys
     }
 }
@@ -27,7 +26,6 @@ module.exports.findByName = function(name) {
         return `${name} is not Found!!`
     }else {
         return {
-            success : true,
             keys
         }
     }
@@ -46,7 +44,7 @@ module.exports.addName = function(newName) {
                 return `Write Fail`
             }else {
                 console.log('Write Success! ')
-                return {success : true}
+                return `Add ${newName} Success`
             }
         })
     }else {
