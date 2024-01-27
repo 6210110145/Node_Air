@@ -7,15 +7,17 @@ const { mitsubishiMain } = require('../air/mitsubishi.js');
 
 const path_JSON = './data/key.json';
 
-module.exports.findAll = function() {
+module.exports.findAll = () => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
+
+    console.log("read success");
 
     return {
         keys
     }
 }
 
-module.exports.findByName = function(name) {
+module.exports.findByName = (name) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     if(keys.Name === "NULL") {
@@ -23,13 +25,15 @@ module.exports.findByName = function(name) {
     }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
         return `${name} is not Found!!`
     }else {
+        console.log("read success");
+
         return {
             keys
         }
     }
 }
 
-module.exports.addName = function(newName) {
+module.exports.addName = (newName) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
@@ -46,11 +50,11 @@ module.exports.addName = function(newName) {
             }
         })
     }else {
-        return `${newName} is usiung`
+        return `${newName} is used!`
     }
 }
 
-module.exports.sendSignals = function(updateRemote) {
+module.exports.sendSignals = (updateRemote) => {
     let newRemote = JSON.stringify(updateRemote, null, 2)
 
     fs.writeFile(path_JSON, newRemote, (err) => {
@@ -64,21 +68,23 @@ module.exports.sendSignals = function(updateRemote) {
 
     fs.readFile(path_JSON, "utf8", (err, newKey) => {
         if (err) {
-            console.log(err)
+            console.log("read fail")
             return `${err}`
         }else {
             let newKeyObj = JSON.parse(newKey)
-            if (newKeyObj.Name.toLocaleLowerCase() == 'centralair') {
+            let nameAir = newKeyObj.Name.toLocaleLowerCase()
+
+            if (nameAir == 'centralair') {
                 centralairMain(newKeyObj)
-            }else if (newKeyObj.Name.toLocaleLowerCase() == 'panasonic') {
+            }else if (nameAir == 'panasonic') {
                 panasonicMain(newKeyObj)
-            }else if (newKeyObj.Name.toLocaleLowerCase() == 'samsung') {
+            }else if (nameAir == 'samsung') {
                 if (newKeyObj.Power == 'OFF') {
                     samsungPowerMain(newKeyObj)
                 }else {
                     samsungMain(newKeyObj)
                 }       
-            }else if (newKeyObj.Name.toLocaleLowerCase() == 'mitsubishi') {
+            }else if (nameAir == 'mitsubishi') {
                 mitsubishiMain(newKeyObj)
             }else{
                 return({

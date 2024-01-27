@@ -17,15 +17,15 @@ router.get('/remote/:name', (req, res) => {
 });
 
 //add or change remote air
-router.patch('/remote/:name', (req, res) => {
-    const new_name = req.params.name
+router.patch('/remote', (req, res) => {
+    const new_name = req.body.Name
     res.send(remote.addName(new_name))
 });
 
 //update the value and send signals
-router.put('/remote/:name', (req, res) => {
+router.put('/remote', (req, res) => {
     const keys = JSON.parse(fs.readFileSync(path_JSON));
-    const name = req.params.name
+    const name = req.body.Name
 
     if(keys.Name.toLowerCase() === name.toLowerCase()) {
         const updateRemote = {
