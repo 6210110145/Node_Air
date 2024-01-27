@@ -1,65 +1,16 @@
 const exprees = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const remote =  require('./controller/remote.js');
-const keys = require('./data/key.json');
+const route = require('./routes/remoteRoute.js')
 
 const app = exprees()
+
 app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//get all value of remote
-app.get('/remote', (req, res) => {
-    res.status(200).send(remote.findAll())
-})
-
-// get remote by name
-app.get('/remote/:name', (req, res) => {
-    const name = req.params.name
-    res.status(200).send(remote.findByName(name))
-})
-
-//add or change remote air
-app.patch('/remote/:name', (req, res) => {
-    const new_name = req.params.name
-    res.send(remote.addName(new_name))
-})
-
-//update the value and send signals
-app.put('/remote/:name', (req, res) => {
-    const name = req.params.name
-
-    if(keys.Name.toLowerCase() === name.toLowerCase()) {
-        const updateRemote = {
-            Name: name,
-            Power: req.body.Power,
-            Mode: req.body.Mode,
-            Temp: req.body.Temp,
-            Fan: req.body.Fan,
-            Swing: req.body.Swing,
-            Sleep: req.body.Sleep,
-            Turbo: req.body.Turbo,
-            Quiet: req.body.Quiet,
-            Light: req.body.Light,
-        }
-        
-        remote.sendSignals(updateRemote)
-
-        res.status(200).send({
-            success: true,
-            message: 'Air SEND'
-        })
-       
-    }else {
-        res.send({
-            success: false,
-            message: `${name} Air is not Match! or ${name} is not Added!!`
-        })
-    }
-})
+app.use(route)
 
 const port = 8001
 app.listen(port, () => {

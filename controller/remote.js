@@ -7,8 +7,6 @@ const { mitsubishiMain } = require('../air/mitsubishi.js');
 
 const path_JSON = './data/key.json';
 
-// let keys = JSON.parse(fs.readFileSync(path_JSON));
-
 module.exports.findAll = function() {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
@@ -48,7 +46,7 @@ module.exports.addName = function(newName) {
             }
         })
     }else {
-        return `${newName} is alredy used`
+        return `${newName} is usiung`
     }
 }
 
