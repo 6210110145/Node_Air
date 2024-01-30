@@ -1,9 +1,9 @@
 {
-  "Name": "centralAir",
-  "Power": "OFF",
+  "Name": "CentralAir",
+  "Power": "ON",
   "Mode": "COOL",
-  "Temp": 30,
-  "Fan": 0,
+  "Temp": 25,
+  "Fan": 3,
   "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",

@@ -8,7 +8,7 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-module.exports.samsungMain = (key) => {
+module.exports.samsungMain = function(key) {
     let binary = KeyToBinary(key)
     // console.log(binary.code)
     
@@ -22,7 +22,7 @@ module.exports.samsungMain = (key) => {
 }
 
 // Key to Binary Funtion
-KeyToBinary = (state) => {
+function KeyToBinary(state) {
     let code = ''
     let checksum_byte_1 = "0011"
     let checksum_byte = "0011"
@@ -284,7 +284,7 @@ KeyToBinary = (state) => {
 }
 
 // Checksum Function
-checksum = (num) => {
+function checksum(num) {
     let count1s = num.split('1').length-1 // นับจำนวนของบิต 1s
     let decimal = 255 - count1s           // ลบด้วย 255
     let binary = String(decimal.toString( redix ).padStart(8, '0'))  // แปลงเป็น binary
@@ -293,7 +293,7 @@ checksum = (num) => {
 }
 
 // Binary to Signals Function
-getRemote = (binary, checksum1, checksum2) => {
+function getRemote(binary, checksum1, checksum2) {
     let raw_code = ''
     let text_checksum_1 = checksum1.toString()
     let text_checksum_2 = checksum2.toString()
@@ -353,7 +353,7 @@ getRemote = (binary, checksum1, checksum2) => {
 }
 
 // Send signal Function
-sendSignals = (remote) => {
+function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {

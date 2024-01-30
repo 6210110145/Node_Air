@@ -8,7 +8,7 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
-module.exports.panasonicMain = (key) => {
+module.exports.panasonicMain = function(key) {
     let binary = KeyToBinary(key)
     // console.log(binary)
     // console.log(binary.sum)
@@ -24,7 +24,7 @@ module.exports.panasonicMain = (key) => {
 }
 
 // Key to Binary Funtion
-KeyToBinary = (state) => {
+function KeyToBinary(state) {
     let code = 'H' //head
     let checksum_byte_1 = ''
     let checksum_byte_2 = ''
@@ -192,12 +192,12 @@ KeyToBinary = (state) => {
 }
 
 //Checksum Function
-decimal = (num) => {
+function decimal(num) {
     return ( //reverse ก่อน แล้วแปลงเป็น decimal
         parseInt(String(num).split("").reverse().join(""), 2) 
     )
 }
-checksum = (number) => {
+function checksum(number) {
     let sum = number % 256
     return ( //แปลงเป็น binary ก่อนแล้ว reverse
         String(sum.toString(redix).padStart(8, '0')).split("").reverse().join("") 
@@ -205,7 +205,7 @@ checksum = (number) => {
 }
 
 //covert to lircd file Funtion
-getRemote = (binary, checksum) => {
+function getRemote(binary, checksum) {
     let raw_code = ''
     let text_checksum = checksum
 
@@ -250,7 +250,7 @@ getRemote = (binary, checksum) => {
 }
 
 // Send signal Function
-sendSignals = (remote) => {
+function sendSignals(remote) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {
