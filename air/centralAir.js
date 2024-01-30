@@ -21,7 +21,7 @@ module.exports.centralairMain = (key) => {
 }
 
 // Key to Binary Function
-function KeyToBinary(state) {
+KeyToBinary = (state) => {
     var code = 'H'
 
     //the Frame 1
@@ -346,7 +346,7 @@ function KeyToBinary(state) {
 }
 
 // Binary to lircd Function
-function getRemote(binary) {
+getRemote = (binary) => {
     var raw_code = ''
     for(let i = 0; i < binary.length; i++) {
         if(binary[i] == 'H') {
@@ -375,7 +375,7 @@ function getRemote(binary) {
 }
 
 // Send signal Function
-function sendSignals(remote) {
+sendSignals = (remote) => {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {

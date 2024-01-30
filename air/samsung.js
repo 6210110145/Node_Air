@@ -22,7 +22,7 @@ module.exports.samsungMain = (key) => {
 }
 
 // Key to Binary Funtion
-function KeyToBinary(state) {
+KeyToBinary = (state) => {
     let code = ''
     let checksum_byte_1 = "0011"
     let checksum_byte = "0011"
@@ -284,7 +284,7 @@ function KeyToBinary(state) {
 }
 
 // Checksum Function
-function checksum(num) {
+checksum = (num) => {
     let count1s = num.split('1').length-1 // นับจำนวนของบิต 1s
     let decimal = 255 - count1s           // ลบด้วย 255
     let binary = String(decimal.toString( redix ).padStart(8, '0'))  // แปลงเป็น binary
@@ -293,7 +293,7 @@ function checksum(num) {
 }
 
 // Binary to Signals Function
-function getRemote(binary, checksum1, checksum2) {
+getRemote = (binary, checksum1, checksum2) => {
     let raw_code = ''
     let text_checksum_1 = checksum1.toString()
     let text_checksum_2 = checksum2.toString()
@@ -353,7 +353,7 @@ function getRemote(binary, checksum1, checksum2) {
 }
 
 // Send signal Function
-function sendSignals(remote) {
+sendSignals = (remote) => {
     return new Promise((resolve, reject) => {
         fs.writeFile('./AIR.lircd.conf', remote, (err) => {
             if(err) {
