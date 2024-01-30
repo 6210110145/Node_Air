@@ -6,7 +6,8 @@ const { samsungMain } = require('../air/samsung.js');
 const { samsungPowerMain } = require('../air/samsungpower.js');
 const { mitsubishiMain } = require('../air/mitsubishi.js');
 
-module.exports.sendSignal = (name) => {
+module.exports.sendSignal = (nameAir) => {
+    let name = nameAir.toLowerCase()
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     if(name === 'centralair') {
@@ -27,6 +28,7 @@ module.exports.sendSignal = (name) => {
         console.log(keys)
         mitsubishiMain(keys)
     }else {
-        console.log(`${name} not found`)
+        console.log(`${name} not found\n` + 
+        `Please select of CentralAir or Panasonic or Samsung or Mitsubishi`)
     }
 }
