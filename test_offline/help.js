@@ -15,5 +15,6 @@ module.exports.help = () => {
                     '  --sleep        ON / OFF <string>\n' +
                     '  --turbo        ON / OFF <string>\n' +
                     '  --quiet        ON / OFF <string>\n' +
-                    '  --light        ON / OFF <string>\n')
+                    '  --light        ON / OFF <string>\n\n' +
+                    '** You do not need to select all options **')
 } 

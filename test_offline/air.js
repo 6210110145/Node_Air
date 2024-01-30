@@ -11,21 +11,16 @@ module.exports.sendSignal = (nameAir) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     if(name === 'centralair') {
-        console.log(keys)
         centralairMain(keys)
     }else if(name === 'panasonic') {
-        console.log(keys)
         panasonicMain(keys)
     }else if(name === 'samsung') {
         if(keys.Power === 'OFF'){
-            console.log(keys)
             samsungPowerMain(keys)
         }else {
-            console.log(keys)
             samsungMain(keys)
         }
     }else if(name === 'mitsubishi') {
-        console.log(keys)
         mitsubishiMain(keys)
     }else {
         console.log(`${name} not found\n` + 

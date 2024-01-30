@@ -2,7 +2,7 @@
   "Name": "centralAir",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 28,
+  "Temp": 25,
   "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",

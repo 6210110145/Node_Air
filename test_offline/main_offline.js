@@ -22,40 +22,54 @@ mainOffline = () => {
     }
 
     if(argv.power) {
-        keys.Power = argv.power
+        keys.Power = argv.power.toUpperCase()
     }
 
     if(argv.mode) {
-        keys.Mode = argv.mode
+        keys.Mode = argv.mode.toUpperCase()
     }
 
     if(argv.temp) {
-        keys.Temp = argv.temp
+        if(argv.temp < 16) {
+            keys.Temp = 16
+        }else if(argv.temp > 30) {
+            keys.Temp = 30
+        }else {
+            keys.Temp = argv.temp
+        }
     }
-
-    if(argv.fan == 0 || argv.fan) {
-        keys.Fan = argv.fan
+    
+    if(argv.fan) {
+        if(argv.fan == 0 || argv.fan == 'AUTO') {
+            keys.Fan = 0
+        }else if(argv.fan > 3) {
+            keys.Fan = 3
+        }else {
+            keys.Fan = argv.fan
+        }
     }
 
     if(argv.swing) {
-        keys.Swing = argv.swing
+        keys.Swing = argv.swing.toUpperCase()
     }
 
     if(argv.sleep) {
-        keys.Sleep = argv.sleep
+        keys.Sleep = argv.sleep.toUpperCase()
     }
 
     if(argv.turbo) {
-        keys.Turbo = argv.turbo
+        keys.Turbo = argv.turbo.toUpperCase()
     }
 
     if(argv.quiet) {
-        keys.Quiet = argv.quiet
+        keys.Quiet = argv.quiet.toUpperCase()
     }
 
     if(argv.light) {
-        keys.Light = argv.light
+        keys.Light = argv.light.toUpperCase()
     }
+
+    console.log(keys)
 
     let newKey = JSON.stringify(keys, null, 2)
 
