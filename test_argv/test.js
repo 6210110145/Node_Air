@@ -11,7 +11,7 @@ var argv = require('minimist')(process.argv.slice(2), {
     string: ['name', 'power', 'mode', 'swing', 'sleep', 'turbo', 'quiet', 'light'],
     boolean: ['help'],
     number: ['temp', 'fan'],
-    alias: { n: 'name', t: 'temp', f: 'fan', m: 'mode', h: 'help'},
+    alias: {n: 'name', t: 'temp', f: 'fan', m: 'mode', p: 'power', h: 'help'},
     unknown: () => {
         console.log('Unkown argument\nprint --help for Help')
     }
@@ -51,8 +51,6 @@ if(argv.light) {
 let newKey = JSON.stringify(keys, null, 2)
 
 fs.writeFileSync(path_JSON, newKey);
-
-console.log(keys)
 
 if(argv.name === 'centralair') {
     console.log(keys)
