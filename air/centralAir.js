@@ -7,7 +7,9 @@ const binary_0 = '650 550 '
 const gap = '650 20000'
 const tail = '650 '
 
-module.exports.centralairMain = function(key) {
+module.exports.centralairMain = (key) => {
+    console.log(KeyToBinary(key))
+    
     sendSignals(getRemote(KeyToBinary(key))).then(result => {
         console.log(result + ' success')
         return true

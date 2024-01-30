@@ -8,7 +8,7 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-module.exports.samsungMain = function(key) {
+module.exports.samsungMain = (key) => {
     let binary = KeyToBinary(key)
     // console.log(binary.code)
     

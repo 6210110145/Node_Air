@@ -8,7 +8,7 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
-module.exports.panasonicMain = function(key) {
+module.exports.panasonicMain = (key) =>{
     let binary = KeyToBinary(key)
     // console.log(binary)
     // console.log(binary.sum)
