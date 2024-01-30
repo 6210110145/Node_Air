@@ -3,10 +3,10 @@
   "Power": "ON",
   "Mode": "COOL",
   "Temp": 28,
-  "Fan": 2,
+  "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "ON"
+  "Light": "OFF"
 }

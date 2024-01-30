@@ -10,7 +10,7 @@ const redix = 2
 
 module.exports.samsungPowerMain = function(key) {
     let binary = KeyToBinary(key)
-    // console.log(binary.code)
+    console.log(`OFF`)
 
     sendSignals(getRemote(binary.code, checksum(binary.checksum_byte_1), checksum(binary.checksum_byte)))
     .then((result) => { 
