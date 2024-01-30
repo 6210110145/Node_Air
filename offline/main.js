@@ -8,15 +8,15 @@ var keys = JSON.parse(fs.readFileSync(path_JSON));
 
 var argv = require('minimist')(process.argv.slice(2), {
     string: ['name', 'power', 'mode', 'swing', 'sleep', 'turbo', 'quiet', 'light'],
-    boolean: ['help'],
+    boolean: ['help', 'show'],
     number: ['temp', 'fan'],
-    alias: {n: 'name', t: 'temp', f: 'fan', m: 'mode', p: 'power', h: 'help'},
+    alias: {n: 'name', p: 'power', m: 'mode', t: 'temp', f: 'fan', s: 'swing', l: 'light', h: 'help', s: 'show'},
     unknown: () => {
         console.log('Unkown argument\nPlease print --help for Help')
     }
 });
 
-mainOffline = () => {
+function mainOffline() {
     if(argv.name) {
         keys.Name = argv.name
     }
@@ -40,7 +40,7 @@ mainOffline = () => {
     }
     
     if(argv.fan) {
-        if(argv.fan == 0 || argv.fan == 'AUTO') {
+        if(argv.fan == 'auto' || argv.fan == 'AUTO' || argv.fan == 'Auto') {
             keys.Fan = 0
         }else if(argv.fan > 3) {
             keys.Fan = 3
@@ -69,14 +69,19 @@ mainOffline = () => {
         keys.Light = argv.light.toUpperCase()
     }
 
-    console.log(keys)
-
     let newKey = JSON.stringify(keys, null, 2)
 
     fs.writeFileSync(path_JSON, newKey);
 
     if(argv.name) {
+        console.log('Update Success')
         sendSignal(argv.name)
+    }else {
+        console.log(`You must select name Air before`)
+    }
+
+    if(argv.show) {
+        console.log(keys)
     }
 
     if(argv.help) {
