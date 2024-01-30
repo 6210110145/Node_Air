@@ -2,11 +2,11 @@
   "Name": "panasonic",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 26,
+  "Temp": 25,
   "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "OFF"
+  "Light": "ON"
 }
