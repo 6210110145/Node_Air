@@ -7,12 +7,12 @@ module.exports.help = function() {
                     '  -p, --power    ON / OFF <string>\n' +
                     '  -m, --mode     Mode of AC <string> [COOL, DRY, FAN, AUTO]\n' +
                     '  -t, --temp     Temperature <number> [16-30]\n' +
-                    '  -f, --fan      Speed of Fan <number> [AUTO, 1-3]\n' +
-                    '                 AUTO or auto is AUTO Speed\n' +
+                    '  -f, --fan      Speed of Fan <string> or <number> [AUTO, 1-3]\n' +
+                    '                 AUTO or auto is AUTO mode\n' +
                     '                 1 is LOW Speed\n' +
                     '                 2 is MEDIUM Speed\n' +
                     '                 3 is HIGH Speed\n\n' +
-                    '  -s, --swing    ON / OFF <string>\n' +
+                    '  --swing        ON / OFF <string>\n' +
                     '  --sleep        ON / OFF <string>\n' +
                     '  --turbo        ON / OFF <string>\n' +
                     '  --quiet        ON / OFF <string>\n' +

@@ -10,9 +10,10 @@ var argv = require('minimist')(process.argv.slice(2), {
     string: ['name', 'power', 'mode', 'swing', 'sleep', 'turbo', 'quiet', 'light'],
     boolean: ['help', 'show'],
     number: ['temp', 'fan'],
-    alias: {n: 'name', p: 'power', m: 'mode', t: 'temp', f: 'fan', s: 'swing', l: 'light', h: 'help', s: 'show'},
+    alias: {n: 'name', p: 'power', m: 'mode', t: 'temp', f: 'fan', l: 'light', h: 'help', s: 'show'},
     unknown: () => {
         console.log('Unkown argument\nPlease print --help for Help\n')
+        process.exit(1)
     }
 });
 
@@ -21,19 +22,29 @@ function mainOffline() {
         keys.Name = argv.name
 
         if(argv.power) {
-            keys.Power = argv.power.toUpperCase()
+            if("ON" == argv.power.toUpperCase()) {
+                keys.Power = "ON"
+            }else if("OFF" == argv.power.toUpperCase()) {
+                keys.Power = "OFF"
+            }else {
+                console.log("-p or --power, Wrong command")
+                process.exit(1)
+            }
         }
 
-        if("COOL" == argv.mode.toUpperCase()) {
-            keys.Mode = "COOL"
-        }else if("DRY" == argv.mode.toUpperCase()) {
-            keys.Mode = "DRY"
-        }else if("FAN" == argv.mode.toUpperCase()) {
-            keys.Mode = "FAN"
-        }else if("AUTO" == argv.mode.toUpperCase()) {
-            keys.Mode = "AUTO"
-        }else {
-            process.exit(1)
+        if(argv.mode) {
+            if("COOL" == argv.mode.toUpperCase()) {
+                keys.Mode = "COOL"
+            }else if("DRY" == argv.mode.toUpperCase()) {
+                keys.Mode = "DRY"
+            }else if("FAN" == argv.mode.toUpperCase()) {
+                keys.Mode = "FAN"
+            }else if("AUTO" == argv.mode.toUpperCase()) {
+                keys.Mode = "AUTO"
+            }else {
+                console.log("-m or --mode, Wrong command")
+                process.exit(1)
+            }
         }
 
         if(argv.temp) {
@@ -57,35 +68,70 @@ function mainOffline() {
         }
 
         if(argv.swing) {
-            keys.Swing = argv.swing.toUpperCase()
+            if("ON" == argv.swing.toUpperCase()) {
+                keys.Swing = "ON"
+            }else if("OFF" == argv.swing.toUpperCase()) {
+                keys.Swing = "OFF"
+            }else {
+                console.log("--swing, Wrong command")
+                process.exit(1)
+            }
         }
-
+        
         if(argv.sleep) {
-            keys.Sleep = argv.sleep.toUpperCase()
+            if("ON" == argv.sleep.toUpperCase()) {
+                keys.Sleep = "ON"
+            }else if("OFF" == argv.sleep.toUpperCase()) {
+                keys.Sleep = "OFF"
+            }else {
+                console.log("--sleep, Wrong command")
+                process.exit(1)
+            }
         }
 
         if(argv.turbo) {
-            keys.Turbo = argv.turbo.toUpperCase()
+            if("ON" == argv.turbo.toUpperCase()) {
+                keys.Turbo = "ON"
+            }else if("OFF" == argv.turbo.toUpperCase()) {
+                keys.Turbo = "OFF"
+            }else {
+                console.log("--turbo, Wrong command")
+                process.exit(1)
+            }
         }
 
         if(argv.quiet) {
-            keys.Quiet = argv.quiet.toUpperCase()
+            if("ON" == argv.quiet.toUpperCase()) {
+                keys.Quiet = "ON"
+            }else if("OFF" == argv.quiet.toUpperCase()) {
+                keys.Quiet = "OFF"
+            }else {
+                console.log("--quiet, Wrong command")
+                process.exit(1)
+            }
         }
 
         if(argv.light) {
-            keys.Light = argv.light.toUpperCase()
+            if("ON" == argv.light.toUpperCase()) {
+                keys.Light = "ON"
+            }else if("OFF" == argv.light.toUpperCase()) {
+                keys.Light = "OFF"
+            }else {
+                console.log("-l or --light, Wrong command")
+                process.exit(1)
+            }
         }
 
         let newKey = JSON.stringify(keys, null, 2)
 
         fs.writeFileSync(path_JSON, newKey);
 
-        console.log('Update Success')
-        
+        console.log('Update Success\n')
+
         sendSignal(argv.name)
 
     }else {
-        console.log(`You must select the name\'s Air before (-n <string>)\n\n`)
+        console.log(`You must select the name\'s Air before (-n <string> or --name <string>)\n\n`)
     }
     
     if(argv.show) {
@@ -96,5 +142,6 @@ function mainOffline() {
         help()
     }
 }
+
 
 mainOffline()

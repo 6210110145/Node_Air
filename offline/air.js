@@ -7,7 +7,7 @@ const { samsungPowerMain } = require('../air/samsungpower.js');
 const { mitsubishiMain } = require('../air/mitsubishi.js');
 
 module.exports.sendSignal = (nameAir) => {
-    let name = nameAir.toLowerCase()
+    let name = nameAir.toLowerCase();
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
     if(name === 'centralair') {
