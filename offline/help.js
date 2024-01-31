@@ -1,5 +1,5 @@
 module.exports.help = () => {
-    console.log('Usage: node remote.js [options] <string> or <number>\n\n' + 
+    console.log('Usage: node main.js [options] <string> or <number>\n\n' + 
                     'Options:\n' +
                     '  -h, --help     display help for command\n' +
                     '  -s, --show     display the data of key.json'+

@@ -38,7 +38,7 @@ function mainOffline() {
             keys.Temp = argv.temp
         }
     }
-    
+
     if(argv.fan) {
         if(argv.fan == 'auto' || argv.fan == 'AUTO' || argv.fan == 'Auto') {
             keys.Fan = 0
@@ -77,7 +77,7 @@ function mainOffline() {
         console.log('Update Success')
         sendSignal(argv.name)
     }else {
-        console.log(`You must select name Air before`)
+        console.log(`You must select the name\'s Air before\n\n`)
     }
 
     if(argv.show) {
