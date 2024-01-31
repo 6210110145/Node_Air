@@ -1,8 +1,8 @@
-module.exports.help = () => {
+module.exports.help = function() {
     console.log('Usage: node main.js [options] <string> or <number>\n\n' + 
                     'Options:\n' +
                     '  -h, --help     display help for command\n' +
-                    '  -s, --show     display the data of key.json'+
+                    '  -s, --show     display the data of key.json\n'+
                     '  -n, --name     select of name\'s air-conditioner [CentralAir, Panasonic, Samsung, Mitsubishi]\n' +
                     '  -p, --power    ON / OFF <string>\n' +
                     '  -m, --mode     Mode of AC <string> [COOL, DRY, FAN, AUTO]\n' +
