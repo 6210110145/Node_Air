@@ -348,6 +348,7 @@ function KeyToBinary(state) {
 // Binary to lircd Function
 function getRemote(binary) {
     var raw_code = ''
+    
     for(let i = 0; i < binary.length; i++) {
         if(binary[i] == 'H') {
             raw_code += header

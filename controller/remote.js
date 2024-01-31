@@ -74,17 +74,17 @@ module.exports.sendSignals = (updateRemote) => {
             let newKeyObj = JSON.parse(newKey)
             let nameAir = newKeyObj.Name.toLocaleLowerCase()
 
-            if (nameAir == 'centralair') {
+            if (nameAir === 'centralair') {
                 centralairMain(newKeyObj)
-            }else if (nameAir == 'panasonic') {
+            }else if (nameAir === 'panasonic') {
                 panasonicMain(newKeyObj)
-            }else if (nameAir == 'samsung') {
-                if (newKeyObj.Power == 'OFF') {
+            }else if (nameAir === 'samsung') {
+                if (newKeyObj.Power === 'OFF') {
                     samsungPowerMain(newKeyObj)
                 }else {
                     samsungMain(newKeyObj)
                 }       
-            }else if (nameAir == 'mitsubishi') {
+            }else if (nameAir === 'mitsubishi') {
                 mitsubishiMain(newKeyObj)
             }else{
                 return({
