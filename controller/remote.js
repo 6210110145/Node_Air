@@ -1,9 +1,5 @@
 const fs = require('fs');
-const { centralairMain } = require('../air/centralAir.js')
-const { panasonicMain } = require('../air/panasonic.js');
-const { samsungMain } = require('../air/samsung.js');
-const { samsungPowerMain } = require('../air/samsungpower.js');
-const { mitsubishiMain } = require('../air/mitsubishi.js');
+const { airMain } = require('../air_send/remoteAir.js');
 
 const path_JSON = './data/key.json';
 
@@ -61,26 +57,8 @@ module.exports.sendSignals = () => {
             return `${err}`
         }else {
             let newKeyObj = JSON.parse(newKey)
-            let nameAir = newKeyObj.Name.toLocaleLowerCase()
 
-            if (nameAir === 'centralair') {
-                centralairMain(newKeyObj)
-            }else if (nameAir === 'panasonic') {
-                panasonicMain(newKeyObj)
-            }else if (nameAir === 'samsung') {
-                if (newKeyObj.Power === 'OFF') {
-                    samsungPowerMain(newKeyObj)
-                }else {
-                    samsungMain(newKeyObj)
-                }       
-            }else if (nameAir === 'mitsubishi') {
-                mitsubishiMain(newKeyObj)
-            }else{
-                return({
-                    success: false,
-                    message: `Can Not Send Signals`
-                });
-            }
+            airMain(newKeyObj)
         } 
     });
 }

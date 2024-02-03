@@ -1,9 +1,6 @@
 const fs = require('fs');
 
-const { convertKeyCentralAir } = require('../receivers/receiveCentralAir.js');
-const { convertKeySamsung } = require("../receivers/receiveSamsung.js");
-const { convertKeyPanasonic } = require("../receivers/receivePanasonic.js");
-// let KEY = require('../data/key.json');
+const { airReceiveMain } = require('../air_send/remoteAir.js');
 
 const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
@@ -21,10 +18,10 @@ module.exports.receiveMain = async() => {
     
     let binaryCode = await convertToBinary(pulse.pulseValues, pulse.spaceValues)
     // console.log(binaryCode)
-    
-    let newKey = await checkRemote(remoteName, binaryCode)
+
+    let newKey = await airReceiveMain(binaryCode)
     console.log(newKey)
-    
+
     await updateJSON(newKey)
 
     // delete file in 60 seconds or another
@@ -97,23 +94,6 @@ convertToBinary = async (pulseDurations, spaceDurations) => {
     }
 
     return binaryValues.join('');
-}
-
-// Check name of Air && Convert to KEYS Function
-checkRemote = async (name, binary) => {
-    if(name === 'centralair') {
-        let newKey = await convertKeyCentralAir(binary)
-        return newKey
-    }else if (name === 'samsung') {
-        let newKey = await convertKeySamsung(binary)
-        return newKey
-    }else if(name === 'panasonic') {
-        let newKey = await convertKeyPanasonic(binary)
-        return newKey
-    }else {
-        console.log(`${name} not Found!!`)
-        return JSON.stringify(keys, null, 2)
-    }
 }
 
 //Update JSON (Database) Function
