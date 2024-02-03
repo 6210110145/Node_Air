@@ -22,7 +22,7 @@ module.exports.findByName = (name) => {
 
     if(keys.Name === "NULL") {
         return `Name of Air does not added`
-    }else if (keys.Name.toLowerCase() != name.toLocaleLowerCase()) {
+    }else if (keys.Name.toLowerCase() != name.toLowerCase()) {
         return `${name} is not Found!!`
     }else {
         console.log("read success");

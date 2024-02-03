@@ -25,6 +25,7 @@ router.patch('/remote', (req, res) => {
 //update the value and send signals
 router.put('/remote', (req, res) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
+    
     const name = req.body.Name
     const power = req.body.Power
     const mode = req.body.Mode
