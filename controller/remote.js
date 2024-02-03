@@ -54,18 +54,7 @@ module.exports.addName = (newName) => {
     }
 }
 
-module.exports.sendSignals = (updateRemote) => {
-    let newRemote = JSON.stringify(updateRemote, null, 2)
-
-    fs.writeFile(path_JSON, newRemote, (err) => {
-        if(err) {
-            console.log(err)
-            return `Update Fail`
-        }else {
-            console.log('Update Success!')
-        }
-    })
-
+module.exports.sendSignals = () => {
     fs.readFile(path_JSON, "utf8", (err, newKey) => {
         if (err) {
             console.log("read fail")

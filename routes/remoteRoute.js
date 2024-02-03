@@ -24,24 +24,73 @@ router.patch('/remote', (req, res) => {
 
 //update the value and send signals
 router.put('/remote', (req, res) => {
-    const keys = JSON.parse(fs.readFileSync(path_JSON));
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
     const name = req.body.Name
+    const power = req.body.Power
+    const mode = req.body.Mode
+    const temp = req.body.Temp
+    const fan = req.body.Fan
+    const swing = req.body.Swing
+    const sleep = req.body.Sleep
+    const turbo = req.body.Turbo
+    const quiet = req.body.Quiet
+    const light = req.body.Light
 
     if(keys.Name.toLowerCase() === name.toLowerCase()) {
-        const updateRemote = {
-            Name: name,
-            Power: req.body.Power,
-            Mode: req.body.Mode,
-            Temp: req.body.Temp,
-            Fan: req.body.Fan,
-            Swing: req.body.Swing,
-            Sleep: req.body.Sleep,
-            Turbo: req.body.Turbo,
-            Quiet: req.body.Quiet,
-            Light: req.body.Light,
+        // const updateRemote = {
+        //     Name: name,
+        //     Power: req.body.Power,
+        //     Mode: req.body.Mode,
+        //     Temp: req.body.Temp,
+        //     Fan: req.body.Fan,
+        //     Swing: req.body.Swing,
+        //     Sleep: req.body.Sleep,
+        //     Turbo: req.body.Turbo,
+        //     Quiet: req.body.Quiet,
+        //     Light: req.body.Light,
+        // }
+
+        if(power) {
+            keys.Power = power
         }
+
+        if(mode) {
+            keys.Mode = mode
+        }
+
+        if(temp) {
+            keys.Temp = temp
+        }
+
+        if(fan) {
+            keys.Fan = fan
+        }
+
+        if(swing) {
+            keys.Swing = swing
+        }
+
+        if(sleep) {
+            keys.Sleep = sleep
+        }
+
+        if(turbo) {
+            keys.Turbo = turbo
+        }
+
+        if(quiet) {
+            keys.Quiet = quiet
+        }
+
+        if(light) {
+            keys.Light = light
+        }
+
+        let newKey = JSON.stringify(keys, null, 2)
+
+        fs.writeFileSync(path_JSON, newKey)
         
-        remote.sendSignals(updateRemote)
+        remote.sendSignals()
 
         res.status(200).send({
             success: true,

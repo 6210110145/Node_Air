@@ -124,7 +124,7 @@ function mainOffline() {
 
         let newKey = JSON.stringify(keys, null, 2)
 
-        fs.writeFileSync(path_JSON, newKey);
+        fs.writeFileSync(path_JSON, newKey)
 
         console.log('Update Success\n')
 

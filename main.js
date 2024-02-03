@@ -26,4 +26,4 @@ const { SERVER_PORT } = process.env
 app.listen(SERVER_PORT, () => {
     console.log("web server: http://localhost:" + SERVER_PORT) //http://localhost:8001
 })
-// app.listen(3001, () => console.log('App listening on port 3001!'))  //192.168.0.151:3001
+// app.listen(3001, () => console.log('App listening on port 3001!'))  //<ip address:port> ex.192.168.0.151:3001
