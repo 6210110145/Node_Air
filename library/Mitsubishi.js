@@ -10,7 +10,7 @@ const tail = '450 '
 const redix = 2
 
 //Mitsubishi AirConditioner (Ceiling Suspended Type)
-module.exports.airMain = function(key) {
+module.exports.airSendMain = function(key) {
     let binary = KeyToBinary(key)
     // console.log(binary)
     // console.log(checksum(binary.sum))

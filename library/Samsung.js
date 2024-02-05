@@ -10,7 +10,7 @@ const gap = '500 3000'
 const tail = '500 '
 const redix = 2
 
-module.exports.airMain = function(key) {
+module.exports.airSendMain = function(key) {
     if(key.Power == "ON"){
         let binary = KeyToBinaryON(key)
 
