@@ -82,14 +82,14 @@ router.put('/remote', (req, res) => {
 
     fs.writeFileSync(path_JSON, newKey)
     
+    remote.sendSignals()
+
     setTimeout(() => {
-        remote.sendSignals()
-    }, 500)
+        res.status(200).json({
+            message: 'Air SEND'
+        });
+    }, 1000)
     
-    res.status(200).json({
-        message: 'Air SEND',
-        keys
-    });
 });
 
 module.exports = router

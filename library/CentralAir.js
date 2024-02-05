@@ -378,7 +378,7 @@ function KeyToBinary(state) {
 
     let newKey = JSON.stringify(state, null, 2)
 
-    fs.writeFileSync("../data/key.json", newKey)
+    fs.writeFileSync("./data/key.json", newKey)
 
     console.log('New Update Success\n')
 

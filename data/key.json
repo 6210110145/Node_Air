@@ -1,10 +1,10 @@
 {
   "Name": "Centralair",
   "Power": "ON",
-  "Mode": "AUTO",
+  "Mode": "COOL",
   "Temp": 25,
-  "Fan": 1,
-  "Swing": "OFF",
+  "Fan": 0,
+  "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",

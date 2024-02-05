@@ -43,6 +43,7 @@ function KeyToBinary(state) {
     code += "0100000000000100000001110010000000000000"
     sum = decimal("01000000") + decimal("00000100") + decimal("00000111") + decimal("00100000")
 
+    // Power
     if(state.Power == "ON") {
         code += "1001"
         checksum_byte_1 += "1001"
@@ -51,6 +52,7 @@ function KeyToBinary(state) {
         checksum_byte_1 += "0001"
     }
 
+    // Mode
     switch(state.Mode) {
         case "AUTO":
             code += "0000"
@@ -64,10 +66,17 @@ function KeyToBinary(state) {
             code += "0100"
             checksum_byte_1 += "0100"
             break
+        // No FAN Mode --> become COOL Mode
+        case "FAN":
+            code += "1100"
+            checksum_byte_1 += "1100"
+            state.Mode = "COOL"
+            break
     }
 
     sum += decimal(checksum_byte_1)
 
+    // Temperature
     switch(state.Temp) {
         case 16:
             code += "00000100"
@@ -134,6 +143,7 @@ function KeyToBinary(state) {
     code += "00000001"
     sum += decimal("00000001")
 
+    // Swing
     if(state.Swing == "ON") {
         code += "1111"
         checksum_byte_2 += "1111"
@@ -142,10 +152,11 @@ function KeyToBinary(state) {
         checksum_byte_2 += "1100"
     }
 
-    //Fan
+    // Fan Speed
     if(state.Mode == "AUTO"){
         code += "0101" //Auto Fan
         checksum_byte_2 += "0101"
+        state.Fan = 0
     }else {
         switch(state.Fan) {
             case 0:
@@ -173,11 +184,18 @@ function KeyToBinary(state) {
 
     sum += decimal("01110000") + decimal("00000111")
 
-    if(state.Quiet == "OFF") {
+    // Quiet mode
+    if(state.Mode == "AUTO") {
         code += "00000000"
+        state.Quiet = "OFF"
     }else {
-        code += "00000100"
-        sum += decimal("00000100")
+        //COOL & DRY Mode
+        if(state.Quiet == "OFF") {
+            code += "00000000"
+        }else {
+            code += "00000100"
+            sum += decimal("00000100")
+        }
     }
 
     code += "00000000100100010000000000000000"
@@ -187,6 +205,12 @@ function KeyToBinary(state) {
     code += "C"
 
     code += "T"
+
+    let newKey = JSON.stringify(state, null, 2)
+
+    fs.writeFileSync("./data/key.json", newKey)
+
+    console.log('New Update Success\n')
 
     return {
         code,
