@@ -703,7 +703,11 @@ module.exports.airReceiveMain = async (binary) => {
             // Temperature
             let decimal = parseInt(String(tempBit).split("").reverse().join(""), 2)
             let temp = 16 + decimal
-            KEY.Temp = temp
+            if(temp > 15 && temp < 31) {
+                KEY.Temp = temp
+            }else {
+                KEY.Temp = 25
+            }
 
             // Fan Speed
             if(fan == '1000' || fan == '1011') {
