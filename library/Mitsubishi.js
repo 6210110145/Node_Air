@@ -274,4 +274,3 @@ function sendSignals(remote) {
         })
     })
 }
-
