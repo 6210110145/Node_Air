@@ -274,3 +274,84 @@ function sendSignals(remote) {
         })
     })
 }
+
+// Mitsubishi Receiver Function
+module.exports.airReceiveMain = function(binaryCode) {
+    let KEY = JSON.parse(fs.readFileSync(path_JSON))
+
+    if(KEY.Name.toLowerCase() === 'mitsubishi') {
+        let binary = binaryCode.substring(binaryCode.length - 114) //Ex. H1100010011010011011001001000000000000000001001011100000011000000000111000000000000000000000000000000000011101111T
+        console.log(binary)
+        console.log(binary.length)
+
+        if(binary.length == 114 && binary[0] == 'H') {
+            let power = binary.substring(41, 45)
+            let mode = binary.substring(49, 53)
+            let temp_bit = binary.substring(57, 61)
+            let fan = binary.substring(65, 69)
+            let swing = binary.substring(69, 73)
+
+            //ON-OFF
+            if(power == '0010') {
+                KEY.Power = "ON"
+            }else {
+                KEY.Power = "OFF"
+            }
+
+            // Mode
+            if(mode == '0001') {
+                KEY.Mode = "AUTO"
+            }else if(mode == '1100') {
+                KEY.Mode = "COOL"
+            }else if(mode == '0100') {
+                KEY.Mode = "DRY"
+            }else if(mode == '1110') {
+                KEY.Mode = "FAN"
+            }else {
+                KEY.Mode = "COOL"
+            }
+
+            // Temperature
+            let decimal = parseInt(String(temp_bit).split("").reverse().join(""), 2)
+            let temp = Math.abs(decimal - 31)
+            if(temp > 15 && temp < 31) {
+                KEY.Temp = temp
+            }else {
+                KEY.Temp = 25
+            }
+
+            // Fan speed
+            if(fan == '0001') {
+                KEY.Fan = 0
+            }else if(fan == '0101') {
+                KEY.Fan = 1
+            }else if(fan == '1101') {
+                KEY.Fan = 2
+            }else if(fan == '1011'){
+                KEY.Fan = 3
+            }else {
+                KEY.Fan = 0
+            }
+
+            // Swing
+            if(swing == '1100') {
+                KEY.Swing = 'ON'
+            }else {
+                KEY.Swing = 'OFF'
+            }
+
+            KEY.Quiet = "OFF"
+            KEY.Light = "OFF"
+            KEY.Sleep = "OFF"
+            KEY.Turbo = "OFF"
+
+            let newRemote = JSON.stringify(KEY, null, 2)
+
+            return newRemote
+        }else {
+            return "fail"
+        }
+    }else {
+        return "fail"
+    }
+}
