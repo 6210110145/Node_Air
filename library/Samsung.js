@@ -34,7 +34,7 @@ module.exports.airSendMain = function(key) {
     }
 }
 
-// Key to Binary Funtion
+// Key to Binary Funtion of "ON" Samsung
 function KeyToBinaryON(state) {
     let code = ''
     let checksum_byte_1 = "0011"
@@ -85,11 +85,13 @@ function KeyToBinaryON(state) {
     }else {
         code += "1000"
         checksum_byte += "1000"
+        state.Turbo = "OFF"
     }
 
     code += "11100000"
     checksum_byte += "11100000"
 
+    //Temperature
     if(state.Mode == "COOL" || state.Mode == "AUTO") {
         switch(state.Temp) {
             case 16:
@@ -160,6 +162,7 @@ function KeyToBinaryON(state) {
             case 18:
                 code += "0100"
                 checksum_byte += "1000"
+                state.Temp = 18
                 break
             case 19:
                 code += "1100"
@@ -229,17 +232,20 @@ function KeyToBinaryON(state) {
             case 30:
                 code += "0001"
                 checksum_byte += "1000"
+                state.Temp = 24
                 break
         }
     }
 
-    //Fan
+    // Fan Speed
     if(state.Mode == "AUTO"){
         code += "1011"
         checksum_byte += "1110"
+        state.Fan = 0
     }else if(state.Mode == "DRY") { //Fix Fan 0
         code += "1000"
         checksum_byte += "1000"
+        state.Fan = 0
     }else { //COOL & FAN
         switch(state.Fan) {
             case 0:
@@ -261,6 +267,7 @@ function KeyToBinaryON(state) {
         }
     }
 
+    // Mode
     switch(state.Mode) {
         case "AUTO":
             code += "0000"
@@ -290,12 +297,19 @@ function KeyToBinaryON(state) {
 
     code += "T"
 
+    let newKey = JSON.stringify(state, null, 2)
+
+    fs.writeFileSync("./data/key.json", newKey)
+
+    console.log('New Update Success\n')
+
     return {
         code, 
         checksum_byte,
         checksum_byte_1}
 }
 
+// "OFF" Samsung Function
 function KeyToBinaryOFF(state) {
     let code = ''
     let checksum_byte_1 = "0011"
@@ -344,6 +358,7 @@ function KeyToBinaryOFF(state) {
     }else{
         code += "1000"
         checksum_byte += "1000"
+        state.Turbo = "OFF"
     }
 
     code += "11100000"
@@ -419,6 +434,7 @@ function KeyToBinaryOFF(state) {
             case 18:
                 code += "0100"
                 checksum_byte += "1000"
+                state.Temp = 18
                 break
             case 19:
                 code += "1100"
@@ -488,17 +504,20 @@ function KeyToBinaryOFF(state) {
             case 30:
                 code += "0001"
                 checksum_byte += "1000"
+                state.Temp = 24
                 break
         }
     }
     
-    // Fan
+    // Fan speed
     if(state.Mode == "AUTO"){
         code += "1011"
         checksum_byte += "1110"
+        state.Fan = 0
     }else if(state.Mode == "DRY") {
         code += "1000"
         checksum_byte += "1000"
+        state.Fan = 0
     }else { //COOL & FAN
         switch(state.Fan) {
             case 0:
@@ -520,6 +539,7 @@ function KeyToBinaryOFF(state) {
         }
     }
 
+    // Mode
     switch(state.Mode) {
         case "AUTO":
             code += "0000"
@@ -539,6 +559,7 @@ function KeyToBinaryOFF(state) {
             break
     }
 
+    // Power
     if(state.Power == "ON") {
         code += '00001111'
         checksum_byte += "1111"
@@ -548,6 +569,12 @@ function KeyToBinaryOFF(state) {
     }
 
     code += "T"
+
+    let newKey = JSON.stringify(state, null, 2)
+
+    fs.writeFileSync("./data/key.json", newKey)
+
+    console.log('New Update Success\n')
 
     return {
         code, 
