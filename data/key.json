@@ -1,12 +1,12 @@
 {
-  "Name": "CentralAir",
+  "Name": "Panasonic",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 20,
-  "Fan": 2,
+  "Temp": 25,
+  "Fan": 0,
   "Swing": "OFF",
   "Sleep": "OFF",
   "Turbo": "OFF",
   "Quiet": "OFF",
-  "Light": "ON"
+  "Light": "OFF"
 }

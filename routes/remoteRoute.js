@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const router = express.Router();
 
-const remote =  require('../controller/remote.js');
+const remote =  require('../controller/transmit.js');
 const path_JSON = './data/key.json';
 
 //get all value of remote
@@ -51,7 +51,11 @@ router.put('/remote', (req, res) => {
     }
 
     if(fan) {
-        keys.Fan = fan
+        if(fan == 'AUTO') {
+            keys.Fan = 0
+        }else {
+            keys.Fan = fan
+        }
     }
 
     if(swing) {

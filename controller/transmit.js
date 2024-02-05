@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { airMain, airSendMain } = require('../remotes/remoteAir.js');
+const { airSendMain } = require('../remotes/remoteAir.js');
 
 const path_JSON = './data/key.json';
 

@@ -2,8 +2,10 @@ require('dotenv').config();
 const exprees = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const route = require('./routes/remoteRoute.js');
 const { Command } = require('commander');
+
+const route = require('./routes/remoteRoute.js');
+
 const program = new Command();
 
 const app = exprees()
@@ -24,6 +26,6 @@ program.parse()
 
 const { SERVER_PORT } = process.env
 app.listen(SERVER_PORT, () => {
-    console.log("web server: http://localhost:" + SERVER_PORT) //http://localhost:8001
+    console.log("web server: http://localhost:" + SERVER_PORT) //http://localhost:8080
 })
 // app.listen(3001, () => console.log('App listening on port 3001!'))  //<ip address:port> ex.192.168.0.151:3001
