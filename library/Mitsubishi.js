@@ -35,6 +35,7 @@ function KeyToBinary(state) {
     code += "1100010011010011011001001000000000000000"
     sum += decimal("11000100") + decimal("11010011") + decimal("01100100") + decimal("10000000")
 
+    // Power
     if(state.Power == "ON") {
         code += "00100101"
         sum += decimal("00100101")
@@ -43,6 +44,7 @@ function KeyToBinary(state) {
         sum += decimal("00000101")
     }
 
+    // Mode
     switch(state.Mode) {
         case "AUTO":
             code += "00010000"
@@ -62,6 +64,7 @@ function KeyToBinary(state) {
             break
     }
 
+    // Temperature
     if(state.Mode == "COOL"){
         switch(state.Temp) {
         case 16:
@@ -129,9 +132,10 @@ function KeyToBinary(state) {
         //Mode: DRY, FAN, AUTO fix Temperature
         code += "11100000"
         sum += decimal("11100000")
+        state.Temp = 24
     }
     
-    //Fan
+    //Fan speed
     switch(state.Fan) {
         case 0:
             code += "0001"
@@ -151,6 +155,7 @@ function KeyToBinary(state) {
             break
     }
 
+    // Swing
     if(state.Swing == "ON") {
         code += "1100"
         checksum_byte += "1100"
@@ -167,6 +172,12 @@ function KeyToBinary(state) {
     code += "C"
 
     code += "T"
+
+    let newKey = JSON.stringify(state, null, 2)
+
+    fs.writeFileSync("./data/key.json", newKey)
+
+    console.log('New Update Success\n')
 
     return {
         code,
