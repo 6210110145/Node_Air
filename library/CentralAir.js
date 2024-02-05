@@ -27,7 +27,8 @@ module.exports.airSendMain = function(key) {
 function KeyToBinary(state) {
     var code = 'H'
 
-    //the Frame 1
+    // the first Frame
+    // Mode
     switch(state.Mode) {
         case "AUTO":
             code += "000"
@@ -43,95 +44,125 @@ function KeyToBinary(state) {
             break
     }
 
+    // ON-OFF Power
     if(state.Power == "ON") {
         code += '1'
     }else {
         code += '0'
     }
 
-    switch(state.Fan) {
-        case 0:
-            code += "00"
-            break
-        case 1:
-            code += "10"
-            break
-        case 2:
-            code += "01"
-            break
-        case 3:
-            code += "11"
-            break
+    // Fan Speed
+    if(state.Mode == "DRY") {
+        code += '10'
+        state.Fan = 1
+    }else {
+        // COOL,FAN,AUTO Mode
+        switch(state.Fan) {
+            case 0:
+                code += "00"
+                break
+            case 1:
+                code += "10"
+                break
+            case 2:
+                code += "01"
+                break
+            case 3:
+                code += "11"
+                break
+        }
     }
-
+    
+    // Swing
     if(state.Swing == "ON") {
         code += '1'
     }else {
         code += '0'
     }
 
-    if(state.Sleep == "ON") {
-        code += '1'
+    // Sleep Mode
+    if(state.Mode == "COOL" || state.Mode == "DRY") {
+        if(state.Sleep == "ON") {
+            code += '1'
+        }else {
+            code += '0'
+        }
     }else {
+        // FAN & AUTO mode = OFF
         code += '0'
+        state.Sleep = "OFF"
     }
-
-    switch(state.Temp) {
-        case 16:
-            code += "0000"
-            break
-        case 17:
-            code += "1000"
-            break
-        case 18:
-            code += "0100"
-            break
-        case 19:
-            code += "1100"
-            break
-        case 20:
-            code += "0010"
-            break
-        case 21:
-            code += "1010"
-            break
-        case 22:
-            code += "0110"
-            break
-        case 23:
-            code += "1110"
-            break
-        case 24:
-            code += "0001"
-            break
-        case 25:
-            code += "1001"
-            break
-        case 26:
-            code += "0101"
-            break
-        case 27:
-            code += "1101"
-            break
-        case 28:
-            code += "0011"
-            break
-        case 29:
-            code += "1011"
-            break
-        case 30:
-            code += "0111"
-            break
+    
+    // Tempertature
+    if(state.Mode == "AUTO") {
+        code += "1001"
+        state.Temp = 25
+    }else {
+        switch(state.Temp) {
+            case 16:
+                code += "0000"
+                break
+            case 17:
+                code += "1000"
+                break
+            case 18:
+                code += "0100"
+                break
+            case 19:
+                code += "1100"
+                break
+            case 20:
+                code += "0010"
+                break
+            case 21:
+                code += "1010"
+                break
+            case 22:
+                code += "0110"
+                break
+            case 23:
+                code += "1110"
+                break
+            case 24:
+                code += "0001"
+                break
+            case 25:
+                code += "1001"
+                break
+            case 26:
+                code += "0101"
+                break
+            case 27:
+                code += "1101"
+                break
+            case 28:
+                code += "0011"
+                break
+            case 29:
+                code += "1011"
+                break
+            case 30:
+                code += "0111"
+                break
+        }
     }
-
+    
     code += "00000000"
 
-    if(state.Turbo == "ON") {
-        code += '1'
+    // Turbo mode
+    if(state.Mode == "COOL") {
+        if(state.Turbo == "ON") {
+            code += '1'
+        }else {
+            code += '0'
+        }
     }else {
+        // FAN & AUTO & DRY Mode = OFF
         code += '0'
+        state.Turbo = "OFF"
     }
-
+    
+    // Light Air
     if(state.Light == "ON") {
         code += '1'
     }else {
@@ -141,7 +172,7 @@ function KeyToBinary(state) {
     code += "0000001010010" 
     code += "G"
     
-    //the Frame 2
+    //the second Frame
     if(state.Swing == "ON") {
         code += '1'
     }else {
@@ -344,6 +375,12 @@ function KeyToBinary(state) {
     }
 
     code += "T"
+
+    let newKey = JSON.stringify(state, null, 2)
+
+    fs.writeFileSync("../data/key.json", newKey)
+
+    console.log('New Update Success\n')
 
     return code
 }
