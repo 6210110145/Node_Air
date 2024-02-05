@@ -1,18 +1,13 @@
 const fs = require('fs');
 
-const { airReceiveMain } = require('../air_send/remoteAir.js');
+const { airReceiveMain } = require('../remotes/remoteAir.js');
 
 const path_file_signal = './signal.txt';
 const path_JSON = './data/key.json';
 
 // const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-module.exports.receiveMain = async() => { 
-    let KEY = JSON.parse(fs.readFileSync(path_JSON));
-
-    const remoteName = KEY.Name.toLocaleLowerCase()
-    // console.log(remoteName)
-
+module.exports.receiveMain = async() => {
     let pulse = await readPulseSpace()
     // console.log(pulse)
     
@@ -22,8 +17,12 @@ module.exports.receiveMain = async() => {
     let newKey = await airReceiveMain(binaryCode)
     console.log(newKey)
 
-    await updateJSON(newKey)
-
+    if(newKey === "fail") {
+        console.log('No Update')
+    }else {
+        await updateJSON(newKey)
+    }
+    
     // delete file in 60 seconds or another
     setTimeout(() => {
        deleteFile() 
@@ -31,7 +30,7 @@ module.exports.receiveMain = async() => {
 }
 
 // keep the pulse-space from signal file Function
-readPulseSpace = async () => {
+async function readPulseSpace() {
     let pulseValues = []
     let spaceValues = []
 
@@ -70,7 +69,7 @@ readPulseSpace = async () => {
 }
 
 // Convert signal to binary Function
-convertToBinary = async (pulseDurations, spaceDurations) => {
+async function convertToBinary(pulseDurations, spaceDurations) {
     let binaryValues = []
 
     for (let i = 0; i < spaceDurations.length && i < pulseDurations.length; i++) {
@@ -97,7 +96,7 @@ convertToBinary = async (pulseDurations, spaceDurations) => {
 }
 
 //Update JSON (Database) Function
-updateJSON = async (newRemote) => {
+async function updateJSON(newRemote) {
     fs.writeFileSync(path_JSON, newRemote, (err) => {
         if(err) {
             console.log(err)
@@ -108,7 +107,7 @@ updateJSON = async (newRemote) => {
 }
 
 // Delete file Function
-deleteFile = () => {
+function deleteFile() {
     fs.readFile(path_file_signal, (err, data) => {
         if(err) {
             console.log(err)
@@ -125,7 +124,7 @@ deleteFile = () => {
 }
 
 // Create new signal file Function After run Mode2 again
-module.exports.createNewFile = () => {
+module.exports.createNewFile = function() {
     fs.writeFileSync("signal.txt", "")
     return `create New signal file`
 }

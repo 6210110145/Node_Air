@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { airMain } = require('../air_send/remoteAir.js');
+const { airMain, airSendMain } = require('../remotes/remoteAir.js');
 
 const path_JSON = './data/key.json';
 
@@ -57,8 +57,7 @@ module.exports.sendSignals = () => {
             return `${err}`
         }else {
             let newKeyObj = JSON.parse(newKey)
-
-            airMain(newKeyObj)
+            airSendMain(newKeyObj)
         } 
     });
 }

@@ -77,9 +77,11 @@ router.put('/remote', (req, res) => {
     let newKey = JSON.stringify(keys, null, 2)
 
     fs.writeFileSync(path_JSON, newKey)
-            
-    remote.sendSignals()
-
+    
+    setTimeout(() => {
+        remote.sendSignals()
+    }, 500)
+    
     res.status(200).json({
         message: 'Air SEND',
         keys

@@ -10,7 +10,7 @@ const gap = '435 10000 '
 const tail = '435 '
 const redix = 2
 
-module.exports.airMain = function(key) {
+module.exports.airSendMain = function(key) {
     let binary = KeyToBinary(key)
     // console.log(binary)
     // console.log(binary.sum)
@@ -195,13 +195,15 @@ function KeyToBinary(state) {
 
 //Checksum Function
 function decimal(num) {
-    return ( //reverse ก่อน แล้วแปลงเป็น decimal
+    return ( 
+        //reverse ก่อน แล้วแปลงเป็น decimal
         parseInt(String(num).split("").reverse().join(""), 2) 
     )
 }
 function checksum(number) {
     let sum = number % 256
-    return ( //แปลงเป็น binary ก่อนแล้ว reverse
+    return ( 
+        //แปลงเป็น binary ก่อนแล้ว reverse
         String(sum.toString(redix).padStart(8, '0')).split("").reverse().join("") 
     )
 }
