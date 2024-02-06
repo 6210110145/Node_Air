@@ -57,6 +57,9 @@ module.exports.sendSignals = () => {
             return `${err}`
         }else {
             let newKeyObj = JSON.parse(newKey)
+
+            console.log(newKeyObj)
+
             airSendMain(newKeyObj)
         } 
     });

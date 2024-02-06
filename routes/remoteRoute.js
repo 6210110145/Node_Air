@@ -7,23 +7,23 @@ const path_JSON = './data/key.json';
 
 //get all value of remote
 router.get('/remote', (req, res) => {
-    res.status(200).send(remote.findAll())
+    res.status(200).json(remote.findAll())
 });
 
 // get remote by name
 router.get('/remote/:name', (req, res) => {
     const name = req.params.name
-    res.status(200).send(remote.findByName(name))
+    res.status(200).json(remote.findByName(name))
 });
 
 //add or change remote air
 router.patch('/remote', (req, res) => {
     const new_name = req.body.Name
-    res.send(remote.addName(new_name))
+    res.json(remote.addName(new_name))
 });
 
 //update the value and send signals
-router.put('/remote', (req, res) => {
+router.post('/remote', (req, res) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
     
     // const name = req.body.Name
@@ -37,7 +37,6 @@ router.put('/remote', (req, res) => {
     const quiet = req.body.Quiet
     const light = req.body.Light
 
-
     if(power) {
         keys.Power = power
     }
@@ -47,14 +46,22 @@ router.put('/remote', (req, res) => {
     }
 
     if(temp) {
-        keys.Temp = temp
+        if(parseInt(temp) < 16) {
+            keys.Temp = 16
+        }else if(parseInt(temp) > 30) {
+            keys.Temp = 30
+        }else {
+            keys.Temp = parseInt(temp)
+        }
     }
 
     if(fan) {
         if(fan == 'AUTO') {
             keys.Fan = 0
+        }else if(parseInt(fan) > 3) {
+            keys.Fan = 3
         }else {
-            keys.Fan = fan
+            keys.Fan = parseInt(fan)
         }
     }
 
