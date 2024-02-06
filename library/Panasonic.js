@@ -12,7 +12,7 @@ const redix = 2
 
 module.exports.airSendMain = function(key) {
     let binary = KeyToBinary(key)
-    // console.log(binary)
+    console.log(binary)
     // console.log(binary.sum)
     // console.log(checksum(binary.sum))
     
@@ -31,7 +31,7 @@ function KeyToBinary(state) {
     let checksum_byte_1 = ''
     let checksum_byte_2 = ''
 
-    let sum // decimal sum of the second frame, บวกทุกๆ 8 bit(1 Byte) ใน frame ที่ 2
+    let sum // บวกทุกๆ 8 bit(1 Byte) ใน frame ที่ 2
 
     //The first frames (64 bits)
     code += "0100000000000100000001110010000000000000000000000000000001100000"
@@ -66,7 +66,7 @@ function KeyToBinary(state) {
             code += "0100"
             checksum_byte_1 += "0100"
             break
-        // No FAN Mode --> become COOL Mode
+        // No FAN Mode --> will become COOL Mode
         case "FAN":
             code += "1100"
             checksum_byte_1 += "1100"
@@ -205,6 +205,10 @@ function KeyToBinary(state) {
     code += "C"
 
     code += "T"
+
+    state.Light = "OFF"
+    state.Turbo = "OFF"
+    state.Sleep = "OFF"
 
     let newKey = JSON.stringify(state, null, 2)
 

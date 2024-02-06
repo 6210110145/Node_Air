@@ -297,6 +297,8 @@ function KeyToBinaryON(state) {
 
     code += "T"
 
+    state.Light = "OFF"
+
     let newKey = JSON.stringify(state, null, 2)
 
     fs.writeFileSync("./data/key.json", newKey)
@@ -569,6 +571,8 @@ function KeyToBinaryOFF(state) {
     }
 
     code += "T"
+
+    state.Light = "OFF"
 
     let newKey = JSON.stringify(state, null, 2)
 

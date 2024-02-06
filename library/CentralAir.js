@@ -52,11 +52,12 @@ function KeyToBinary(state) {
     }
 
     // Fan Speed
+    // DRY Mode --> only 1 fan speed
     if(state.Mode == "DRY") {
         code += '10'
         state.Fan = 1
     }else {
-        // COOL,FAN,AUTO Mode
+        // COOL,FAN,AUTO 
         switch(state.Fan) {
             case 0:
                 code += "00"
@@ -375,6 +376,8 @@ function KeyToBinary(state) {
     }
 
     code += "T"
+
+    state.Quiet = "OFF"
 
     let newKey = JSON.stringify(state, null, 2)
 

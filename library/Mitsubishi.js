@@ -12,7 +12,7 @@ const redix = 2
 //Mitsubishi AirConditioner (Ceiling Suspended Type)
 module.exports.airSendMain = function(key) {
     let binary = KeyToBinary(key)
-    // console.log(binary)
+    console.log(binary)
     // console.log(checksum(binary.sum))
     // console.log(getRemote(binary.code, checksum(binary.sum)))
 
@@ -172,6 +172,11 @@ function KeyToBinary(state) {
     code += "C"
 
     code += "T"
+
+    state.Turbo = "OFF"
+    state.Sleep = "OFF"
+    state.Light = "OFF"
+    state.Quiet = "OFF"
 
     let newKey = JSON.stringify(state, null, 2)
 
