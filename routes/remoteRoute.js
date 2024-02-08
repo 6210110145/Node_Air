@@ -22,6 +22,12 @@ router.patch('/remote', (req, res) => {
     res.json(remote.addName(new_name))
 });
 
+router.post('/room', (req, res) => {
+    const new_room = req.body.Room
+    console.log(req.body.Room)
+    res.json(remote.changeRoom(new_room))
+});
+
 //update the value and send signals
 router.post('/remote', (req, res) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));

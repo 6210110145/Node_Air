@@ -32,7 +32,7 @@ module.exports.findByName = (name) => {
 module.exports.addName = (newName) => {
     let keys = JSON.parse(fs.readFileSync(path_JSON));
 
-    if(keys.Name == "NULL" || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
+    if(keys.Name != undefined || newName.toLocaleLowerCase() != keys.Name.toLocaleLowerCase()) {
         keys.Name = newName
         let newKey = JSON.stringify(keys, null, 2)
 
@@ -50,6 +50,27 @@ module.exports.addName = (newName) => {
     }
 }
 
+module.exports.changeRoom = (newRoom) => {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
+    if(newRoom != undefined || newRoom.toLocaleLowerCase() != keys.Room.toLocaleLowerCase()) {
+        keys.Room = newRoom
+        let newKey = JSON.stringify(keys, null, 2)
+
+        fs.writeFile(path_JSON, newKey, (err) => {
+            if(err) {
+                console.log(err)
+                return `Write Fail`
+            }else {
+                console.log('Write Success! ')
+            }
+        })
+        return `Change Room Success`
+    }else {
+        return `${newRoom} is used!`
+    }
+}
+ 
 module.exports.sendSignals = () => {
     fs.readFile(path_JSON, "utf8", (err, newKey) => {
         if (err) {

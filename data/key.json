@@ -1,9 +1,10 @@
 {
+  "Room": "BedRoom",
   "Name": "Centralair",
   "Power": "ON",
   "Mode": "COOL",
-  "Temp": 28,
-  "Fan": 0,
+  "Temp": 25,
+  "Fan": 1,
   "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
