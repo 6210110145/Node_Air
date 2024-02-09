@@ -16,16 +16,31 @@ router.get('/remote/:name', (req, res) => {
     res.status(200).json(remote.findByName(name))
 });
 
-//add or change remote air
+// add or change remote air
 router.patch('/remote', (req, res) => {
     const new_name = req.body.Name
     res.json(remote.addName(new_name))
 });
 
+// change room
 router.post('/room', (req, res) => {
     const new_room = req.body.Room
-    console.log(req.body.Room)
+    // console.log(req.body.Room)
     res.json(remote.changeRoom(new_room))
+});
+
+// change channel
+router.post('/channel', (req, res) => {
+    const new_channel = req.body.Channel
+    // console.log(req.body.Channel)
+    res.json(remote.changeChannel(parseInt(new_channel)))
+});
+
+// change description
+router.post('/description', (req, res) => {
+    const new_description = req.body.Description
+    // console.log(req.body.Description)
+    res.json(remote.changeDescription(new_description))
 });
 
 //update the value and send signals

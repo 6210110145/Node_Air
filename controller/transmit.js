@@ -70,6 +70,48 @@ module.exports.changeRoom = (newRoom) => {
         return `${newRoom} is used!`
     }
 }
+
+module.exports.changeChannel = (newChannel) => {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
+    if(newChannel != undefined || newChannel != keys.Channel) {
+        keys.Channel = newChannel
+        let newKey = JSON.stringify(keys, null, 2)
+
+        fs.writeFile(path_JSON, newKey, (err) => {
+            if(err) {
+                console.log(err)
+                return `Write Fail`
+            }else {
+                console.log('Write Channel Success! ')
+            }
+        })
+        return `Change new Channel Success`
+    }else {
+        return `${newChannel} is used!`
+    }
+}
+
+module.exports.changeDescription = (newDescription) => {
+    let keys = JSON.parse(fs.readFileSync(path_JSON));
+
+    if(newDescription != undefined) {
+        keys.Description = newDescription
+        let newKey = JSON.stringify(keys, null, 2)
+
+        fs.writeFile(path_JSON, newKey, (err) => {
+            if(err) {
+                console.log(err)
+                return `Write Fail`
+            }else {
+                console.log('Write Description Success! ')
+            }
+        })
+        return `Change descriptionl Success`
+    }else {
+        return `the description undefined`
+    }
+}
  
 module.exports.sendSignals = () => {
     fs.readFile(path_JSON, "utf8", (err, newKey) => {
