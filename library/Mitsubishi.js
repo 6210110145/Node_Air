@@ -178,15 +178,16 @@ function KeyToBinary(state) {
     state.Light = "OFF"
     state.Quiet = "OFF"
 
-    let newKey = JSON.stringify(state, null, 2)
+    // let newKey = JSON.stringify(state, null, 2)
 
-    fs.writeFileSync("./data/key.json", newKey)
+    // fs.writeFileSync("./data/key.json", newKey)
 
-    console.log('New Update Success\n')
+    // console.log('New Update Success\n')
 
     return {
         code,
-        sum}
+        sum
+    }
 }
 
 //Checksum Function

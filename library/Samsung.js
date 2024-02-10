@@ -299,16 +299,17 @@ function KeyToBinaryON(state) {
 
     state.Light = "OFF"
 
-    let newKey = JSON.stringify(state, null, 2)
+    // let newKey = JSON.stringify(state, null, 2)
 
-    fs.writeFileSync("./data/key.json", newKey)
+    // fs.writeFileSync("./data/key.json", newKey)
 
-    console.log('New Update Success\n')
+    // console.log('New Update Success\n')
 
     return {
         code, 
         checksum_byte,
-        checksum_byte_1}
+        checksum_byte_1
+    }
 }
 
 // "OFF" Samsung Function
@@ -574,16 +575,17 @@ function KeyToBinaryOFF(state) {
 
     state.Light = "OFF"
 
-    let newKey = JSON.stringify(state, null, 2)
+    // let newKey = JSON.stringify(state, null, 2)
 
-    fs.writeFileSync("./data/key.json", newKey)
+    // fs.writeFileSync("./data/key.json", newKey)
 
-    console.log('New Update Success\n')
+    // console.log('New Update Success\n')
 
     return {
         code, 
         checksum_byte,
-        checksum_byte_1}
+        checksum_byte_1
+    }
 }
 
 // Checksum Function
