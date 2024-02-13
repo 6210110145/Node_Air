@@ -77,7 +77,7 @@ router.post('/remote', (req, res) => {
     }
 
     if(fan) {
-        if(fan == 'AUTO') {
+        if(fan === 'AUTO') {
             keys.Fan = 0
         }else if(parseInt(fan) > 3) {
             keys.Fan = 3

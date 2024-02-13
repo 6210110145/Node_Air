@@ -6,7 +6,7 @@
   "Power": "ON",
   "Mode": "COOL",
   "Temp": 25,
-  "Fan": 2,
+  "Fan": 0,
   "Swing": "ON",
   "Sleep": "OFF",
   "Turbo": "OFF",
